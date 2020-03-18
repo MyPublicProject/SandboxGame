@@ -1,0 +1,31 @@
+
+# visual studio
+.vs
+
+*.sln
+*.suo
+*.opensdf
+*.sdf
+
+
+# ue4
+Intermediate
+Binaries
+Saved
+DerivedDataCache
+/*/Binaries/**
+/*/Plugins/**/Binaries/**
+/*/Plugins/**/Intermediate/**
+/*/DerivedDataCache/**
+
+# project
+Build
+DownloadContent
+WindowsNoEditor
+Content/Meshes
+Content/Materials
+Content/MatWk
+Content/TexWk
+Content/MeshWk
+Content/SHZHAN-W
+
