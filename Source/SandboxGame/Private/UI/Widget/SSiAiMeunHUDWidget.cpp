@@ -42,8 +42,8 @@ void SSiAiMeunHUDWidget::Construct(const FArguments& InArgs)
 				]
 				*/
 				+ SOverlay::Slot()
-				.HAlign(HAlign_Left)
-				.VAlign(VAlign_Top)
+				.HAlign(HAlign_Center)
+				.VAlign(VAlign_Center)
 				[
 					SAssignNew(MenuWidget, SSiAiMenuWidget)
 				]

@@ -63,10 +63,14 @@ void SSiAiMenuWidget::Construct(const FArguments& InArgs)
 					.VAlign(VAlign_Center)
 					[
 						SAssignNew(TitleText, STextBlock)
+						.Font(SiAiStyle::Get().GetFontStyle("MenuItemFont"))
+						.Text(FText::FromString("I am 001"))
 					]
 				]
 			]
 		]
 	];
+	RootSizeBox->SetWidthOverride(600.f);
+	RootSizeBox->SetHeightOverride(510.f);
 }
 END_SLATE_FUNCTION_BUILD_OPTIMIZATION

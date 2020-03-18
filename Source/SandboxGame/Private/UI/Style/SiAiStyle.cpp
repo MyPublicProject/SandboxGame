@@ -8,6 +8,7 @@ TSharedPtr<class FSlateStyleSet> SiAiStyle::Create()
 {
 	// 在目录下找相对应的 C++ 类
 	TSharedPtr<FSlateStyleSet> StyleRef = FSlateGameResources::New(SiAiStyle::GetStyleSetName(), "/Game/UI/Style", "/Game/UI/Style");
+	StyleRef->Set("MenuItemFont", FSlateFontInfo("Rboto-Regular.ttf", 50));
 	return StyleRef;
 }
 
