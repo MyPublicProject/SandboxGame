@@ -9,6 +9,7 @@
 #include "SImage.h"
 #include "SBorder.h"
 #include "STextBlock.h"
+// #include "Internationalization.h"
 
 
 BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
@@ -16,6 +17,10 @@ void SSiAiMenuWidget::Construct(const FArguments& InArgs)
 {
 	// 获取编辑器的 MenuStyle
 	MenuStyle = &SiAiStyle::Get().GetWidgetStyle<FSiAiMenuStyle>("BPSiAiMenuStyle");
+
+	// 语言设置
+	// FInternationalization::Get().SetCurrentCulture(TEXT("en"));
+	// FInternationalization::Get().SetCurrentCulture(TEXT("zh"));
 	
 	ChildSlot
 	[
@@ -64,7 +69,7 @@ void SSiAiMenuWidget::Construct(const FArguments& InArgs)
 					[
 						SAssignNew(TitleText, STextBlock)
 						.Font(SiAiStyle::Get().GetFontStyle("MenuItemFont"))
-						.Text(FText::FromString("I am 001"))
+						.Text(NSLOCTEXT("SiAiMenu", "Menu", "Menu"))
 					]
 				]
 			]
