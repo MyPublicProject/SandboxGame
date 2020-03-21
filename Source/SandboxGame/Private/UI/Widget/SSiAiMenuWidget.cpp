@@ -9,6 +9,10 @@
 #include "SImage.h"
 #include "SBorder.h"
 #include "STextBlock.h"
+#include "SSiAiMenuItemWidget.h"
+#include "SBoxPanel.h"
+#include "AiSiTypes.h"
+#include "Engine/Engine.h"
 // #include "Internationalization.h"
 
 
@@ -73,9 +77,30 @@ void SSiAiMenuWidget::Construct(const FArguments& InArgs)
 					]
 				]
 			]
+
+			+ SOverlay::Slot()
+			.HAlign(HAlign_Center)
+			.VAlign(VAlign_Top)
+			.Padding(FMargin(0.f, 130.f, 0.f, 0.f))
+			[
+				SAssignNew(ContentBox, SVerticalBox)
+			]
 		]
 	];
 	RootSizeBox->SetWidthOverride(600.f);
 	RootSizeBox->SetHeightOverride(510.f);
+
+	ContentBox->AddSlot()
+	[
+		SNew(SSiAiMenuItemWidget)
+		.ItemText(NSLOCTEXT("SlAiMenu", "StartGame", "StartGame"))
+		.ItemType(EMenuItem::StartGame)
+		.OnClicked(this, &SSiAiMenuWidget::MenuItemOnClicked)
+	];
 }
 END_SLATE_FUNCTION_BUILD_OPTIMIZATION
+
+void SSiAiMenuWidget::MenuItemOnClicked(EMenuItem::Type ItemType)
+{
+	TitleText->SetText(NSLOCTEXT("SlAiMenu", "StartGame", "StartGame"));
+}

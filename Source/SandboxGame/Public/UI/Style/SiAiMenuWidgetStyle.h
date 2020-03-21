@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Styling/SlateWidgetStyle.h"
 #include "SlateWidgetStyleContainerBase.h"
+#include "SlateFontInfo.h"
 
 #include "SiAiMenuWidgetStyle.generated.h"
 
@@ -44,6 +45,22 @@ struct SANDBOXGAME_API FSiAiMenuStyle : public FSlateWidgetStyle
 	// Menu标题Border的Brush
 	UPROPERTY(EditAnywhere, Category = Menu)
 		FSlateBrush TitleBorderBrush;
+
+	// MenuItem 的 Bush
+	UPROPERTY(EditAnywhere, Category = MenuItem)
+		FSlateBrush MenuItemBrush;
+
+	// 60 号字体
+	UPROPERTY(EditAnywhere, Category = Common)
+		FSlateFontInfo Font_60;
+
+	// 40 号字体
+	UPROPERTY(EditAnywhere, Category = Common)
+		FSlateFontInfo Font_40;
+
+	// 30 号字体
+	UPROPERTY(EditAnywhere, Category = Common)
+		FSlateFontInfo Font_30;
 };
 
 /**
