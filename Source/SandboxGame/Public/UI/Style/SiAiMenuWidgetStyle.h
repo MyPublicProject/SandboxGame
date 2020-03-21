@@ -6,6 +6,7 @@
 #include "Styling/SlateWidgetStyle.h"
 #include "SlateWidgetStyleContainerBase.h"
 #include "SlateFontInfo.h"
+#include "NoExportTypes.h"
 
 #include "SiAiMenuWidgetStyle.generated.h"
 
@@ -61,6 +62,25 @@ struct SANDBOXGAME_API FSiAiMenuStyle : public FSlateWidgetStyle
 	// 30 号字体
 	UPROPERTY(EditAnywhere, Category = Common)
 		FSlateFontInfo Font_30;
+
+	// 黑色
+	UPROPERTY(EditAnywhere, Category = Common)
+		FLinearColor FontColor_White;
+
+	// 白色
+	UPROPERTY(EditAnywhere, Category = Common)
+		FLinearColor FontColor_Black;
+
+	// GameSet 的背景
+	UPROPERTY(EditAnywhere, Category = GameOption)
+		FSlateBrush GameOptionBGBrush;
+
+	// CheckedBox 的 Brush 被选中
+	UPROPERTY(EditAnywhere, Category = GameOption)
+		FSlateBrush CheckedBoxBrush;
+		// CheckedBox 的 Brush 不被选中
+	UPROPERTY(EditAnywhere, Category = GameOption)
+		FSlateBrush UnCheckedBoxBrush;
 };
 
 /**

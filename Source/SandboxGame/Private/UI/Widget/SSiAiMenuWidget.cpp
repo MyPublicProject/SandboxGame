@@ -13,6 +13,7 @@
 #include "SBoxPanel.h"
 #include "AiSiTypes.h"
 #include "Engine/Engine.h"
+#include "SSiAiGameOptionWidget.h"
 // #include "Internationalization.h"
 
 
@@ -92,15 +93,12 @@ void SSiAiMenuWidget::Construct(const FArguments& InArgs)
 
 	ContentBox->AddSlot()
 	[
-		SNew(SSiAiMenuItemWidget)
-		.ItemText(NSLOCTEXT("SlAiMenu", "StartGame", "StartGame"))
-		.ItemType(EMenuItem::StartGame)
-		.OnClicked(this, &SSiAiMenuWidget::MenuItemOnClicked)
+		SNew(SSiAiGameOptionWidget)
 	];
 }
 END_SLATE_FUNCTION_BUILD_OPTIMIZATION
 
 void SSiAiMenuWidget::MenuItemOnClicked(EMenuItem::Type ItemType)
 {
-	TitleText->SetText(NSLOCTEXT("SlAiMenu", "StartGame", "StartGame"));
+	
 }

@@ -46,4 +46,6 @@ TSharedRef<SlAiDataHandle> SlAiDataHandle::Create()
 
 SlAiDataHandle::SlAiDataHandle()
 {
+	// 默认为中文显示
+	CurrentCulture = ECultureTeam::ZH;
 }
