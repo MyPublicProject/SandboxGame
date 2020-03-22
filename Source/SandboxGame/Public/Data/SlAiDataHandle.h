@@ -34,8 +34,16 @@ public:
 
 private:
 
-	//创建单例
+	// 创建单例
 	static TSharedRef<SlAiDataHandle> Create();
+
+	// 根据 enum 类型获取字符串
+	template<typename TEnum>
+	FString GetEnumValueAsString(const FString& Name, TEnum Value);
+
+	// 根据字符串获取 Enum 值
+	template<typename TEnum>
+	TEnum GetEnumValueFromString(const FString& Name, FString Value);
 
 private:
 
