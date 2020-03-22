@@ -7,6 +7,7 @@
 #include "SlateWidgetStyleContainerBase.h"
 #include "SlateFontInfo.h"
 #include "NoExportTypes.h"
+#include "SlateTypes.h"
 
 #include "SiAiMenuWidgetStyle.generated.h"
 
@@ -78,9 +79,18 @@ struct SANDBOXGAME_API FSiAiMenuStyle : public FSlateWidgetStyle
 	// CheckedBox 的 Brush 被选中
 	UPROPERTY(EditAnywhere, Category = GameOption)
 		FSlateBrush CheckedBoxBrush;
-		// CheckedBox 的 Brush 不被选中
+
+	// CheckedBox 的 Brush 不被选中
 	UPROPERTY(EditAnywhere, Category = GameOption)
 		FSlateBrush UnCheckedBoxBrush;
+
+	// Slider 的背景 Brush
+	UPROPERTY(EditAnywhere, Category = GameOption)
+		FSlateBrush SliderBarBrush;
+
+	// 引入 Slider 样式
+	UPROPERTY(EditAnywhere, Category = GameOption)
+		FSliderStyle SliderStyle;
 };
 
 /**

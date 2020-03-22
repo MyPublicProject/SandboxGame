@@ -26,6 +26,10 @@ private:
 
 	// 绑定各个 MenuItem 的方法
 	void MenuItemOnClicked(EMenuItem::Type ItemType);
+	// 修改语言	
+	void ChangeCulture(ECultureTeam Culture);
+	// 修改音量
+	void ChangeVolume(const float MusicVolume, const float SoundVolume);
 
 private:
 	// 保存根节点
@@ -36,5 +40,4 @@ private:
 	TSharedPtr<STextBlock> TitleText;
 	// 用来保存垂直列表
 	TSharedPtr<SVerticalBox> ContentBox;
-
 };

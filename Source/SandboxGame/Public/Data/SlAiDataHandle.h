@@ -21,9 +21,16 @@ public:
 	// 修改中英文
 	void ChangeLocalizationCulture(ECultureTeam Culture);
 
+	// 修改菜单音量
+	void ResetMenuVolume(float MusicVal, float SoundVal);
+
 public:
 
+	// 语言
 	ECultureTeam CurrentCulture;
+	// 音量
+	float MusicVolume;
+	float SoundVolume;
 
 private:
 

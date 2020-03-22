@@ -14,6 +14,7 @@
 #include "AiSiTypes.h"
 #include "Engine/Engine.h"
 #include "SSiAiGameOptionWidget.h"
+#include "SlAiDataHandle.h"
 // #include "Internationalization.h"
 
 
@@ -94,6 +95,8 @@ void SSiAiMenuWidget::Construct(const FArguments& InArgs)
 	ContentBox->AddSlot()
 	[
 		SNew(SSiAiGameOptionWidget)
+		.ChangeCulture(this, &SSiAiMenuWidget::ChangeCulture)
+		.ChangeVolume(this, &SSiAiMenuWidget::ChangeVolume)
 	];
 }
 END_SLATE_FUNCTION_BUILD_OPTIMIZATION
@@ -101,4 +104,14 @@ END_SLATE_FUNCTION_BUILD_OPTIMIZATION
 void SSiAiMenuWidget::MenuItemOnClicked(EMenuItem::Type ItemType)
 {
 	
+}
+
+void SSiAiMenuWidget::ChangeCulture(ECultureTeam Culture)
+{
+	SlAiDataHandle::Get()->ChangeLocalizationCulture(Culture);
+}
+
+void SSiAiMenuWidget::ChangeVolume(const float MusicVolume, const float SoundVolume)
+{
+	SlAiDataHandle::Get()->ResetMenuVolume(MusicVolume, SoundVolume);
 }
