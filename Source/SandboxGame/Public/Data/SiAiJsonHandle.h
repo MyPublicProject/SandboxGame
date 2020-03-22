@@ -15,6 +15,9 @@ public:
 
 	SiAiJsonHandle();
 
+	// 解析存档
+	void RecordDataJsonRead(FString& Culture, float& MusicVolume, float& SoundVolume, TArray<FString>& RecordDataList);
+
 private:
 
 	// 读取 Json 文件到字符串

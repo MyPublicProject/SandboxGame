@@ -12,6 +12,31 @@ SiAiJsonHandle::SiAiJsonHandle()
 	RelativePath = FString("Res/ConfigData/");
 }
 
+void SiAiJsonHandle::RecordDataJsonRead(FString& Culture, float& MusicVolume, float& SoundVolume, TArray<FString>& RecordDataList)
+{
+	FString JsonValue;
+	LoadStringFromFile(RecordDataFileName, RelativePath, JsonValue);
+
+	TArray<TSharedPtr<FJsonValue>> JsonParsed;
+	TSharedRef<TJsonReader<TCHAR>> JsonReader = TJsonReaderFactory<TCHAR>::Create(JsonValue);
+
+	if (FJsonSerializer::Deserialize(JsonReader, JsonParsed)) {
+		//获取数据
+		Culture = JsonParsed[0]->AsObject()->GetStringField(FString("Culture"));
+		MusicVolume = JsonParsed[1]->AsObject()->GetNumberField(FString("MusicVolume"));
+		SoundVolume = JsonParsed[2]->AsObject()->GetNumberField(FString("SoundVolume"));
+		//获取存档数据
+		TArray<TSharedPtr<FJsonValue>> RecordDataArray = JsonParsed[3]->AsObject()->GetArrayField(FString("RecordData"));
+		for (int i = 0; i < RecordDataArray.Num(); ++i) {
+			FString RecordDataName = RecordDataArray[i]->AsObject()->GetStringField(FString::FromInt(i));
+			RecordDataList.Add(RecordDataName);
+		}
+	}
+	else {
+		SiAiHelper::Debug(FString("Deserialize Failed"));
+	}
+}
+
 bool SiAiJsonHandle::LoadStringFromFile(const FString& FileName, const FString& RelaPath, FString& ResultString)
 {
 	if (!FileName.IsEmpty())

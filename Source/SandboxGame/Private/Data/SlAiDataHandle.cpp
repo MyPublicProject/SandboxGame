@@ -1,6 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "SlAiDataHandle.h"
+#include "SiAiJsonHandle.h"
+#include "SiAiSingleton.h"
+#include "SiAiHelper.h"
 
 TSharedPtr<SlAiDataHandle> SlAiDataHandle::DataInstance = NULL;
 
@@ -58,11 +61,8 @@ TSharedRef<SlAiDataHandle> SlAiDataHandle::Create()
 
 SlAiDataHandle::SlAiDataHandle()
 {
-	// 默认为中文显示
-	CurrentCulture = ECultureTeam::ZH;
-	// 初始化音量
-	MusicVolume = 0.5f;
-	SoundVolume = 0.5f;
+	// 初始化存档数据
+	InitRecordData();
 }
 
 template<typename TEnum>
@@ -85,4 +85,20 @@ TEnum SlAiDataHandle::GetEnumValueFromString(const FString& Name, FString Value)
 		return TEnum(0);
 	}
 	return (TEnum)EnumPtr->GetIndexByName(FName(*FString(Value)));
+}
+
+void SlAiDataHandle::InitRecordData()
+{
+	// 获取语言
+	FString Culture;
+	// 读取存档数据
+	SiAiSingleton<SiAiJsonHandle>::Get()->RecordDataJsonRead(Culture, MusicVolume, SoundVolume, RecordDataList);
+	ChangeLocalizationCulture(GetEnumValueFromString<ECultureTeam>(FString("ECultureTeam"), Culture));
+
+	// 输出一下
+	SiAiHelper::Debug(Culture + FString("--") + FString::SanitizeFloat(MusicVolume) + FString("--") + FString::SanitizeFloat(SoundVolume));
+	for (TArray<FString>::TIterator It(RecordDataList); It; ++It)
+	{
+		SiAiHelper::Debug(*It, 20.f);
+	}
 }
