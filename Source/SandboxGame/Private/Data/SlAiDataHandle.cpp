@@ -4,6 +4,7 @@
 #include "SiAiJsonHandle.h"
 #include "SiAiSingleton.h"
 #include "SiAiHelper.h"
+#include "Class.h"
 
 TSharedPtr<SlAiDataHandle> SlAiDataHandle::DataInstance = NULL;
 
@@ -38,6 +39,8 @@ void SlAiDataHandle::ChangeLocalizationCulture(ECultureTeam Culture)
 	}
 	// 赋值
 	CurrentCulture = Culture;
+	//更新存档数据
+	SiAiSingleton<SiAiJsonHandle>::Get()->UpdataRecordData(GetEnumValueAsString<ECultureTeam>(FString("ECultureTeam"), CurrentCulture), MusicVolume, SoundVolume, &RecordDataList);
 }
 
 void SlAiDataHandle::ResetMenuVolume(float MusicVol, float SoundVol)
@@ -49,7 +52,9 @@ void SlAiDataHandle::ResetMenuVolume(float MusicVol, float SoundVol)
 	if (SoundVol >= 0)
 	{
 		SoundVolume = SoundVol;
-	}	
+	}
+	//更新存档数据
+	SiAiSingleton<SiAiJsonHandle>::Get()->UpdataRecordData(GetEnumValueAsString<ECultureTeam>(FString("ECultureTeam"), CurrentCulture), MusicVolume, SoundVolume, &RecordDataList);
 }
 
 TSharedRef<SlAiDataHandle> SlAiDataHandle::Create()
@@ -73,7 +78,7 @@ FString SlAiDataHandle::GetEnumValueAsString(const FString& Name, TEnum Value)
 	{
 		return FString("InValid");
 	}
-	return EnumPtr->GetEnumName((int32)Value);
+	return EnumPtr->GetNameStringByIndex((int32)Value);
 }
 
 template<typename TEnum>
@@ -94,11 +99,4 @@ void SlAiDataHandle::InitRecordData()
 	// 读取存档数据
 	SiAiSingleton<SiAiJsonHandle>::Get()->RecordDataJsonRead(Culture, MusicVolume, SoundVolume, RecordDataList);
 	ChangeLocalizationCulture(GetEnumValueFromString<ECultureTeam>(FString("ECultureTeam"), Culture));
-
-	// 输出一下
-	SiAiHelper::Debug(Culture + FString("--") + FString::SanitizeFloat(MusicVolume) + FString("--") + FString::SanitizeFloat(SoundVolume));
-	for (TArray<FString>::TIterator It(RecordDataList); It; ++It)
-	{
-		SiAiHelper::Debug(*It, 20.f);
-	}
 }

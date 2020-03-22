@@ -1,25 +1,24 @@
  [
-	{
-		"Culture": "ZH"
-	},
-	{
-		"MusicVolume": 0.1
-	},
-	{
-		"SoundVolume": 0.1
-	},
-	{
-		"RecordData": 
-		[
-			{
-				"0": "Default"
-			},
-			{
-				"1": "RecordOne"
-			},
-			{
-				"2": "RecordTwo"
-			}
-		]
-	}
-]
+		{
+			"Culture": "EN"
+		},
+		{
+			"MusicVolume": 0.88437575101852417
+		},
+		{
+			"SoundVolume": 0.55625075101852417
+		},
+		{
+			"RecordData": [
+				{
+					"0": "Default"
+				},
+				{
+					"1": "RecordOne"
+				},
+				{
+					"2": "RecordTwo"
+				}
+			]
+		}
+	]

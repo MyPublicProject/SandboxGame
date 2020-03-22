@@ -18,10 +18,19 @@ public:
 	// 解析存档
 	void RecordDataJsonRead(FString& Culture, float& MusicVolume, float& SoundVolume, TArray<FString>& RecordDataList);
 
+	// 修改存档
+	void UpdataRecordData(FString Culture, float MusicVolume, float SoundVolume, TArray<FString> *RecordDataList);
+
 private:
 
 	// 读取 Json 文件到字符串
 	bool LoadStringFromFile(const FString& FileName, const FString& RelaPath, FString& ResultString);
+
+	// FJsonObject 转换为 Json 格式的字符串
+	bool GetFStringInJsonData(const TSharedPtr<FJsonObject> &JsonObj, FString& JsonStr);
+
+	// 保存字符串到文件
+	bool WriteFileWithJsonData(const FString &JsonStr, const FString &RelaPath, const FString &FileName);
 
 private:
 
