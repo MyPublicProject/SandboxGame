@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "Widgets/SCompoundWidget.h"
 #include "AiSiTypes.h"
+#include "CurveSequence.h"
+#include "CurveHandle.h"
 
 class SBox;
 class STextBlock;
@@ -26,6 +28,8 @@ public:
 	/** Constructs this widget with InArgs */
 	void Construct(const FArguments& InArgs);
 
+	virtual void Tick(const FGeometry& AllottedGeometry, const double InCurrentTime, const float InDeltaTime) override;
+
 private:
 
 	// 绑定各个 MenuItem 的方法
@@ -40,6 +44,14 @@ private:
 	void ChooseWidget(EMenuType::Type WidgetType);
 	// 修改菜单大小
 	void ResetWidgetSize(float NewWidget, float NewHeight);
+	//初始化动画组件
+	void InitializedAnimation();
+	//播放关闭动画
+	void PlayClose(EMenuType::Type NewMenu);
+	//退出游戏
+	void QuitGame();
+	//进入游戏
+	void EnterGame();
 
 private:
 	// 保存根节点
@@ -58,4 +70,19 @@ private:
 	TSharedPtr<SSiAiNewGameWidget> NewGameWidget;
 	// 选择存档控件指针
 	TSharedPtr<SSiAiChooseRecordWidget> ChooseRecordWidget;
+
+	// 动画播放器
+	FCurveSequence MenuAnimation;
+	// 曲线控制器
+	FCurveHandle MenuCurve;
+	// 用来保存新高度
+	float CurrentHeight;
+	// 是否已经显示 Menu 组件
+	bool IsMenuShow;
+	//是否锁住按钮
+	bool ControlLocked;
+	// 保存当前的动画状态
+	EMenuAnim::Type AnimState;
+	// 保存当前菜单
+	EMenuType::Type CurrentMenu;
 };
