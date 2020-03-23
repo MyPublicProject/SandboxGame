@@ -9,6 +9,10 @@
 class SBox;
 class STextBlock;
 class SVerticalBox;
+struct MenuGroup;
+class SSiAiGameOptionWidget;// 设置界面
+class SSiAiNewGameWidget;// 新游戏界面
+class SSiAiChooseRecordWidget;// 读取存档界面
 /**
  * 
  */
@@ -30,6 +34,12 @@ private:
 	void ChangeCulture(ECultureTeam Culture);
 	// 修改音量
 	void ChangeVolume(const float MusicVolume, const float SoundVolume);
+	// 初始化所有控件
+	void InitializedMenuList();
+	// 选择显示界面
+	void ChooseWidget(EMenuType::Type WidgetType);
+	// 修改菜单大小
+	void ResetWidgetSize(float NewWidget, float NewHeight);
 
 private:
 	// 保存根节点
@@ -40,4 +50,12 @@ private:
 	TSharedPtr<STextBlock> TitleText;
 	// 用来保存垂直列表
 	TSharedPtr<SVerticalBox> ContentBox;
+	// 保存菜单组
+	TMap<EMenuType::Type, TSharedPtr<MenuGroup>> MenuMap;
+	// 游戏设置 Widget 的指针
+	TSharedPtr<SSiAiGameOptionWidget> GameOptionWidget;
+	// 新游戏控件指针
+	TSharedPtr<SSiAiNewGameWidget> NewGameWidget;
+	// 选择存档控件指针
+	TSharedPtr<SSiAiChooseRecordWidget> ChooseRecordWidget;
 };

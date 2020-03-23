@@ -32,3 +32,17 @@ namespace EMenuItem
 		EnterRecord
 	};
 }
+
+// Menu界面类型
+namespace EMenuType
+{
+	enum Type
+	{
+		None,
+		MainMenu,
+		StartGame,
+		GameOption,
+		NewGame,
+		ChooseRecord
+	};
+}
