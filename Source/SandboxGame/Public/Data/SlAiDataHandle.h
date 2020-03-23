@@ -33,6 +33,8 @@ public:
 	float SoundVolume;
 	// ´æµµÊý¾Ý
 	TArray<FString> RecordDataList;
+	// ´æµµÃû
+	FString RecordName;
 
 private:
 

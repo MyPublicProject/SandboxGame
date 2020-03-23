@@ -15,6 +15,8 @@
 #include "Engine/Engine.h"
 #include "SSiAiGameOptionWidget.h"
 #include "SlAiDataHandle.h"
+#include "SSiAiNewGameWidget.h"
+#include "SSiAiChooseRecordWidget.h"
 // #include "Internationalization.h"
 
 
@@ -94,9 +96,7 @@ void SSiAiMenuWidget::Construct(const FArguments& InArgs)
 
 	ContentBox->AddSlot()
 	[
-		SNew(SSiAiGameOptionWidget)
-		.ChangeCulture(this, &SSiAiMenuWidget::ChangeCulture)
-		.ChangeVolume(this, &SSiAiMenuWidget::ChangeVolume)
+		SNew(SSiAiChooseRecordWidget)
 	];
 }
 END_SLATE_FUNCTION_BUILD_OPTIMIZATION
