@@ -211,10 +211,19 @@ void SSiAiMenuWidget::MenuItemOnClicked(EMenuItem::Type ItemType)
 		PlayClose(EMenuType::StartGame);
 		break;
 	case EMenuItem::EnterGame:
-		// 进入游戏
-		SiAiHelper::PlayerSoundAndCall(UGameplayStatics::GetPlayerController(GWorld, 0)->GetWorld(), MenuStyle->StartGameSound, this, &SSiAiMenuWidget::EnterGame);
+		// 检测是否可以进入游戏
+		if (NewGameWidget->AllowEnterGame())
+		{
+			SiAiHelper::PlayerSoundAndCall(UGameplayStatics::GetPlayerController(GWorld, 0)->GetWorld(), MenuStyle->StartGameSound, this, &SSiAiMenuWidget::EnterGame);
+		}
+		else
+		{
+			ControlLocked = false;
+		}
 		break;
 	case EMenuItem::EnterRecord:
+		// 告诉选择存档更新文档名
+		ChooseRecordWidget->UpdataRecordName();
 		SiAiHelper::PlayerSoundAndCall(UGameplayStatics::GetPlayerController(GWorld, 0)->GetWorld(), MenuStyle->StartGameSound, this, &SSiAiMenuWidget::EnterGame);
 		break;
 	default:
@@ -356,6 +365,5 @@ void SSiAiMenuWidget::QuitGame()
 }
 void SSiAiMenuWidget::EnterGame()
 {
-	SiAiHelper::Debug(FString("Enter Game"));
-	ControlLocked = false;
+	UGameplayStatics::OpenLevel(UGameplayStatics::GetPlayerController(GWorld, 0)->GetWorld(), FName("GameMap"));
 }
