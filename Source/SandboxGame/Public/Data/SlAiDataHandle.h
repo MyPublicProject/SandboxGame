@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "AiSiTypes.h"
 
+class USoundCue;
+
 /**
  * 
  */
@@ -28,11 +30,14 @@ public:
 
 	// 语言
 	ECultureTeam CurrentCulture;
+
 	// 音量
 	float MusicVolume;
 	float SoundVolume;
+
 	// 存档数据
 	TArray<FString> RecordDataList;
+
 	// 存档名
 	FString RecordName;
 
@@ -52,8 +57,17 @@ private:
 	// 初始化存档数据
 	void InitRecordData();
 
+	// 初始化 Menu 声音数据
+	void InitializedMenuAudio();
+
 private:
 
 	static TSharedPtr<SlAiDataHandle> DataInstance;
+
+	// 保存 Menu 的声音
+	TMap<FString, TArray<USoundCue*>> MenuAudioResource;
+
+	//获取MenuStyle,里面存放有声音文件
+	const struct FSiAiMenuStyle *MenuStyle;
 
 };

@@ -5,6 +5,9 @@
 #include "SiAiSingleton.h"
 #include "SiAiHelper.h"
 #include "Class.h"
+#include "SiAiStyle.h"
+#include "SiAiMenuWidgetStyle.h"
+#include "Sound/SoundCue.h"
 
 TSharedPtr<SlAiDataHandle> SlAiDataHandle::DataInstance = NULL;
 
@@ -39,7 +42,7 @@ void SlAiDataHandle::ChangeLocalizationCulture(ECultureTeam Culture)
 	}
 	// 赋值
 	CurrentCulture = Culture;
-	//更新存档数据
+	// 更新存档数据
 	SiAiSingleton<SiAiJsonHandle>::Get()->UpdataRecordData(GetEnumValueAsString<ECultureTeam>(FString("ECultureTeam"), CurrentCulture), MusicVolume, SoundVolume, &RecordDataList);
 }
 
@@ -48,10 +51,21 @@ void SlAiDataHandle::ResetMenuVolume(float MusicVol, float SoundVol)
 	if (MusicVol >= 0)
 	{
 		MusicVolume = MusicVol;
+		// 循环设置背景音量
+		for (TArray<USoundCue*>::TIterator It(MenuAudioResource.Find(FString("Music"))->CreateIterator()); It; It++)
+		{
+			// 设置音量
+			(*It)->VolumeMultiplier = MusicVolume;
+		}
 	}
 	if (SoundVol >= 0)
 	{
 		SoundVolume = SoundVol;
+		for (TArray<USoundCue*>::TIterator It(MenuAudioResource.Find(FString("Sound"))->CreateIterator()); It; It++)
+		{
+			// 设置音量
+			(*It)->VolumeMultiplier = SoundVolume;
+		}
 	}
 	//更新存档数据
 	SiAiSingleton<SiAiJsonHandle>::Get()->UpdataRecordData(GetEnumValueAsString<ECultureTeam>(FString("ECultureTeam"), CurrentCulture), MusicVolume, SoundVolume, &RecordDataList);
@@ -68,6 +82,8 @@ SlAiDataHandle::SlAiDataHandle()
 {
 	// 初始化存档数据
 	InitRecordData();
+	// 初始化 Menu Sound 数据
+	InitializedMenuAudio();
 }
 
 template<typename TEnum>
@@ -101,4 +117,26 @@ void SlAiDataHandle::InitRecordData()
 	// 读取存档数据
 	SiAiSingleton<SiAiJsonHandle>::Get()->RecordDataJsonRead(Culture, MusicVolume, SoundVolume, RecordDataList);
 	ChangeLocalizationCulture(GetEnumValueFromString<ECultureTeam>(FString("ECultureTeam"), Culture));
+}
+
+void SlAiDataHandle::InitializedMenuAudio()
+{
+	// 获取 MenuStyle
+	MenuStyle = &SiAiStyle::Get().GetWidgetStyle<FSiAiMenuStyle>("BPSiAiMenuStyle");
+
+	// 添加资源文件到资源列表
+	TArray<USoundCue*> MusicList;
+	MusicList.Add(Cast<USoundCue>(MenuStyle->MenuBackgroundMusic.GetResourceObject()));
+
+	TArray<USoundCue*> SoundList;
+	SoundList.Add(Cast<USoundCue>(MenuStyle->StartGameSound.GetResourceObject()));
+	SoundList.Add(Cast<USoundCue>(MenuStyle->ExitGameSound.GetResourceObject()));
+	SoundList.Add(Cast<USoundCue>(MenuStyle->MenuItemChangeSound.GetResourceObject()));
+
+	//添加资源到Map
+	MenuAudioResource.Add(FString("Music"), MusicList);
+	MenuAudioResource.Add(FString("Sound"), SoundList);
+
+	//重置一下声音
+	ResetMenuVolume(MusicVolume, SoundVolume);
 }

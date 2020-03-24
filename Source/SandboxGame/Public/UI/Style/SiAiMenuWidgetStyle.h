@@ -8,6 +8,7 @@
 #include "SlateFontInfo.h"
 #include "NoExportTypes.h"
 #include "SlateTypes.h"
+#include "SlateSound.h"
 
 #include "SiAiMenuWidgetStyle.generated.h"
 
@@ -91,6 +92,22 @@ struct SANDBOXGAME_API FSiAiMenuStyle : public FSlateWidgetStyle
 	// 引入 Slider 样式
 	UPROPERTY(EditAnywhere, Category = GameOption)
 		FSliderStyle SliderStyle;
+
+	// 开始游戏声音
+	UPROPERTY(EditAnywhere, Category = Sound)
+		FSlateSound StartGameSound;
+
+	// 结束游戏声音
+	UPROPERTY(EditAnywhere, Category = Sound)
+		FSlateSound ExitGameSound;
+
+	// 转换按钮声音
+	UPROPERTY(EditAnywhere, Category = Sound)
+		FSlateSound MenuItemChangeSound;
+
+	// Menu背景声音
+	UPROPERTY(EditAnywhere, Category = Sound)
+		FSlateSound MenuBackgroundMusic;
 };
 
 /**

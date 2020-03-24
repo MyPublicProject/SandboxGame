@@ -18,6 +18,10 @@
 #include "SSiAiNewGameWidget.h"
 #include "SSiAiChooseRecordWidget.h"
 #include "SharedPointer.h"
+#include "Kismet/GameplayStatics.h"
+#include "SiAiMenuController.h"
+#include "SiAiHelper.h"
+#include "SlateApplication.h"
 // #include "Internationalization.h"
 
 struct MenuGroup
@@ -50,6 +54,8 @@ void SSiAiMenuWidget::Construct(const FArguments& InArgs)
 	// 获取编辑器的 MenuStyle
 	MenuStyle = &SiAiStyle::Get().GetWidgetStyle<FSiAiMenuStyle>("BPSiAiMenuStyle");
 
+	// 播放背景音乐
+	FSlateApplication::Get().PlaySound(MenuStyle->MenuBackgroundMusic);
 	// 语言设置
 	// FInternationalization::Get().SetCurrentCulture(TEXT("en"));
 	// FInternationalization::Get().SetCurrentCulture(TEXT("zh"));
@@ -183,7 +189,8 @@ void SSiAiMenuWidget::MenuItemOnClicked(EMenuItem::Type ItemType)
 		PlayClose(EMenuType::GameOption);
 		break;
 	case EMenuItem::QuitGame:
-		ControlLocked = false;
+		//退出游戏,播放声音并且延时调用退出函数
+		SiAiHelper::PlayerSoundAndCall(UGameplayStatics::GetPlayerController(GWorld, 0)->GetWorld(), MenuStyle->ExitGameSound, this, &SSiAiMenuWidget::QuitGame);
 		break;
 	case EMenuItem::NewGame:
 		PlayClose(EMenuType::NewGame);
@@ -204,10 +211,11 @@ void SSiAiMenuWidget::MenuItemOnClicked(EMenuItem::Type ItemType)
 		PlayClose(EMenuType::StartGame);
 		break;
 	case EMenuItem::EnterGame:
-		ControlLocked = false;
+		// 进入游戏
+		SiAiHelper::PlayerSoundAndCall(UGameplayStatics::GetPlayerController(GWorld, 0)->GetWorld(), MenuStyle->StartGameSound, this, &SSiAiMenuWidget::EnterGame);
 		break;
 	case EMenuItem::EnterRecord:
-		ControlLocked = false;
+		SiAiHelper::PlayerSoundAndCall(UGameplayStatics::GetPlayerController(GWorld, 0)->GetWorld(), MenuStyle->StartGameSound, this, &SSiAiMenuWidget::EnterGame);
 		break;
 	default:
 		break;
@@ -337,14 +345,17 @@ void SSiAiMenuWidget::PlayClose(EMenuType::Type NewMenu)
 	AnimState = EMenuAnim::Close;
 	// 播放反向动画
 	MenuAnimation.PlayReverse(this->AsShared());
+	// 播放切换菜单音乐
+	FSlateApplication::Get().PlaySound(MenuStyle->MenuItemChangeSound);
 }
 
 void SSiAiMenuWidget::QuitGame()
 {
-
+	// 控制台
+	Cast<ASiAiMenuController>(UGameplayStatics::GetPlayerController(GWorld, 0))->ConsoleCommand("quit");
 }
-
 void SSiAiMenuWidget::EnterGame()
 {
-
+	SiAiHelper::Debug(FString("Enter Game"));
+	ControlLocked = false;
 }
