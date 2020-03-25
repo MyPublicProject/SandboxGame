@@ -9,6 +9,7 @@
 class USpringArmComponent;
 class UCameraComponent;
 class USkeletalMeshComponent;
+class UCharacterMovementComponent;
 
 UCLASS()
 class SANDBOXGAME_API ASiAiPlayerCharacter : public ACharacter
@@ -63,6 +64,10 @@ private:
 	// 第一人称模型
 	UPROPERTY(VisibleDefaultsOnly, Category = "SiAi")
 		USkeletalMeshComponent *MeshFirst;
+
+	// 旋转速率
+	float BaseLookUpRate;
+	float BaseTurnRate;
 
 	
 };

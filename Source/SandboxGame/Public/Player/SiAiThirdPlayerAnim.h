@@ -18,6 +18,11 @@ public:
 
 	USiAiThirdPlayerAnim();
 
+protected:
+
+	// 重写属性方法
+	virtual void UpdateParameter() override;
+
 public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = PlayAnim)

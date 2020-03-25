@@ -9,6 +9,7 @@
 #include "Components/PrimitiveComponent.h"
 #include "GameFramework/Character.h"
 #include "Components/CapsuleComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 
 // Sets default values
@@ -85,6 +86,15 @@ ASiAiPlayerCharacter::ASiAiPlayerCharacter()
 	//默认第三人称
 	FirstCamera->SetActive(false);
 	ThirdCamera->SetActive(true);
+	//不显示第一人称模型
+	GetMesh()->SetOwnerNoSee(false);
+	MeshFirst->SetOwnerNoSee(true);
+
+	//初始化参数
+	BaseTurnRate = 45.f;
+	BaseLookUpRate = 45.f;
+	//设置初始速度为150.f
+	GetCharacterMovement()->MaxWalkSpeed = 150.f;
 
 }
 
@@ -142,35 +152,36 @@ void ASiAiPlayerCharacter::MoveRight(float Value)
 
 void ASiAiPlayerCharacter::LookUpAtRate(float Value)
 {
-
+	AddControllerPitchInput(Value * BaseLookUpRate * GetWorld()->GetDeltaSeconds());
 }
 
 void ASiAiPlayerCharacter::Turn(float Value)
 {
-
+	AddControllerYawInput(Value);
 }
 
 void ASiAiPlayerCharacter::TurnAtRate(float Value)
 {
-
+	AddControllerYawInput(Value *BaseTurnRate * GetWorld()->GetDeltaSeconds());
 }
 
 void ASiAiPlayerCharacter::OnStartJump()
 {
-
+	bPressedJump = true;
 }
 
 void ASiAiPlayerCharacter::OnStopJump()
 {
-
+	bPressedJump = false;
+	StopJumping();
 }
 
 void ASiAiPlayerCharacter::OnStartRun()
 {
-
+	GetCharacterMovement()->MaxWalkSpeed = 375.f;
 }
 
 void ASiAiPlayerCharacter::OnStopRun()
 {
-
+	GetCharacterMovement()->MaxWalkSpeed = 150.f;
 }
