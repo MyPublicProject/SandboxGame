@@ -14,7 +14,16 @@ class SANDBOXGAME_API USiAiThirdPlayerAnim : public USiAiPlayerAnim
 {
 	GENERATED_BODY()
 	
-	
-	
+public:
+
+	USiAiThirdPlayerAnim();
+
+public:
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = PlayAnim)
+		bool IsInAir;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = PlayAnim)
+		float Direction;
 	
 };

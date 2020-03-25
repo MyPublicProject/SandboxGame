@@ -6,6 +6,10 @@
 #include "GameFramework/Character.h"
 #include "SiAiPlayerCharacter.generated.h"
 
+class USpringArmComponent;
+class UCameraComponent;
+class USkeletalMeshComponent;
+
 UCLASS()
 class SANDBOXGAME_API ASiAiPlayerCharacter : public ACharacter
 {
@@ -15,17 +19,50 @@ public:
 	// Sets default values for this character's properties
 	ASiAiPlayerCharacter();
 
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	
+public:
+
+	UPROPERTY(VisibleDefaultsOnly, Category = "SiAi")
+		USpringArmComponent *CameraBoom;
+	UPROPERTY(VisibleDefaultsOnly, Category = "SiAi")
+		UCameraComponent *ThirdCamera;
+	UPROPERTY(VisibleDefaultsOnly, Category = "SiAi")
+		UCameraComponent *FirstCamera;
+
+protected:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
+
+private:
+
+	void MoveForward(float Value);
+
+	void MoveRight(float Value);
+
+	void LookUpAtRate(float Value);
+
+	void Turn(float Value);
+
+	void TurnAtRate(float Value);
+
+	void OnStartJump();
+
+	void OnStopJump();
+
+	void OnStartRun();
+
+	void OnStopRun();
+
+private:
+
+	// 第一人称模型
+	UPROPERTY(VisibleDefaultsOnly, Category = "SiAi")
+		USkeletalMeshComponent *MeshFirst;
+
 	
 };
