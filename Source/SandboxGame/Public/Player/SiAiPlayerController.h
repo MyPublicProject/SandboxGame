@@ -42,5 +42,17 @@ private:
 	void LeftEventStop();
 	void RightEventStart();
 	void RightEventStop();
+
+private:
+
+	//左键预动作
+	EUpperBody::Type LeftUpperType;
+
+	//右键预动作
+	EUpperBody::Type RightUpperType;
+
+	//是否按住左右鼠标键
+	bool IsLeftButtonDown;
+	bool IsRightButtonDown;
 	
 };

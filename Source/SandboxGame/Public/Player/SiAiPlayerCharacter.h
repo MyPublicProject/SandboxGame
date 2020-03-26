@@ -39,7 +39,14 @@ public:
 	UPROPERTY(VisibleDefaultsOnly, Category = "SiAi")
 		UCameraComponent *FirstCamera;
 	
+	// 当前的视角模型
 	EGameViewMode::Type GameView;
+
+	// 上半身动画状态
+	EUpperBody::Type UpperType;
+
+	// 是否允许切换视角
+	bool IsAllowSwitch;
 
 protected:
 	// Called when the game starts or when spawned

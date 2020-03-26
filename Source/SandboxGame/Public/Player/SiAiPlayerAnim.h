@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Animation/AnimInstance.h"
+#include "AiSiTypes.h"
 #include "SiAiPlayerAnim.generated.h"
 
 class UAnimMontage;
@@ -32,6 +33,9 @@ protected:
 	// 更新动作
 	virtual void UpdateMontage();
 
+	// 是否允许切换视角
+	void AllowViewChange(bool IsAllow);
+
 protected:
 
 	//角色指针
@@ -43,6 +47,12 @@ protected:
 	UAnimMontage* PlayerPunchMontage;
 	UAnimMontage* PlayerEatMontage;
 	UAnimMontage* PlayerPickUpMontage;
+
+	// 保存当前播放的 Montage
+	UAnimMontage* CurrentMontage;
+
+	// 指定运行人称
+	EGameViewMode::Type GameView;
 
 public:
 

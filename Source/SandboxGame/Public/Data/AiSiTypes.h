@@ -59,10 +59,25 @@ namespace EMenuAnim
 }
 
 // 视角模式
-namespace EGameViewMode {
+namespace EGameViewMode 
+{
 	enum Type
 	{
 		First,
 		Third
+	};
+}
+
+// 上半身动画状态
+namespace EUpperBody
+{
+	enum Type
+	{
+		None,
+		Punch,
+		Hit,
+		Fight,
+		PickUp,
+		Eat,
 	};
 }

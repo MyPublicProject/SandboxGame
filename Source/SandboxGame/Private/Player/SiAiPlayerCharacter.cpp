@@ -93,6 +93,11 @@ ASiAiPlayerCharacter::ASiAiPlayerCharacter()
 	GameView = EGameViewMode::Third;
 	ChangeView(GameView);
 
+	// 初始化动作为无动作
+	UpperType = EUpperBody::None;
+	// 是否允许切换视角
+	IsAllowSwitch = true;
+
 }
 
 // Called when the game starts or when spawned

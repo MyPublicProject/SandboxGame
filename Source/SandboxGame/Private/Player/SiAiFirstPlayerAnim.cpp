@@ -6,7 +6,7 @@
 
 USiAiFirstPlayerAnim::USiAiFirstPlayerAnim()
 {
-	//绑定资源到Montage
+	// 绑定资源到Montage
 	static ConstructorHelpers::FObjectFinder<UAnimMontage> PlayerHitMon(TEXT("AnimMontage'/Game/Res/PolygonAdventure/Mannequin/FirstPlayer/Animation/UpperBody/FirstPlayerHitMontage.FirstPlayerHitMontage'"));
 	PlayerHitMontage = PlayerHitMon.Object;
 	static ConstructorHelpers::FObjectFinder<UAnimMontage> PlayerEatMon(TEXT("AnimMontage'/Game/Res/PolygonAdventure/Mannequin/FirstPlayer/Animation/UpperBody/FirstPlayerEatMontage.FirstPlayerEatMontage'"));
@@ -18,5 +18,5 @@ USiAiFirstPlayerAnim::USiAiFirstPlayerAnim()
 	static ConstructorHelpers::FObjectFinder<UAnimMontage> PlayerPickUpMon(TEXT("AnimMontage'/Game/Res/PolygonAdventure/Mannequin/FirstPlayer/Animation/UpperBody/FirstPlayerPickUpMontage.FirstPlayerPickUpMontage'"));
 	PlayerPickUpMontage = PlayerPickUpMon.Object;
 
-	// GameView = EGameViewMode::First;
+	GameView = EGameViewMode::First;
 }

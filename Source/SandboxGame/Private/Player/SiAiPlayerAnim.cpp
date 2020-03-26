@@ -3,6 +3,7 @@
 #include "SiAiPlayerAnim.h"
 #include "Player/SiAiPlayerAnim.h"
 #include "SiAiPlayerCharacter.h"
+#include "AiSiTypes.h"
 
 USiAiPlayerAnim::USiAiPlayerAnim()
 {
@@ -40,8 +41,69 @@ void USiAiPlayerAnim::UpdateParameter()
 void USiAiPlayerAnim::UpdateMontage()
 {
 	if (!SPCharacter) return;
-	if (!Montage_IsPlaying(PlayerPunchMontage))
+
+	// 当前人称状态和动作
+	if (SPCharacter->GameView != GameView) return;
+
+	// 当前动作没有停止，不更新动作
+	if (!Montage_GetIsStopped(CurrentMontage)) return;
+	
+	switch (SPCharacter->UpperType)
 	{
-		Montage_Play(PlayerPunchMontage);
+	case EUpperBody::None:
+		if (CurrentMontage != nullptr)
+		{
+			// 停止所有的蒙太奇动作
+			Montage_Stop(0);
+			CurrentMontage = nullptr;
+			AllowViewChange(true);
+		}
+		break;
+	case EUpperBody::Punch:
+		if (!Montage_IsPlaying(PlayerPunchMontage))
+		{
+			Montage_Play(PlayerPunchMontage);
+			CurrentMontage = PlayerPunchMontage;
+			AllowViewChange(false);
+		}
+		break;
+	case EUpperBody::Hit:
+		if (!Montage_IsPlaying(PlayerPunchMontage))
+		{
+			Montage_Play(PlayerPunchMontage);
+			CurrentMontage = PlayerPunchMontage;
+			AllowViewChange(false);
+		}
+		break;
+	case EUpperBody::Fight:
+		if (!Montage_IsPlaying(PlayerPunchMontage))
+		{
+			Montage_Play(PlayerPunchMontage);
+			CurrentMontage = PlayerPunchMontage;
+			AllowViewChange(false);
+		}
+		break;
+	case EUpperBody::PickUp:
+		if (!Montage_IsPlaying(PlayerPunchMontage))
+		{
+			Montage_Play(PlayerPunchMontage);
+			CurrentMontage = PlayerPunchMontage;
+			AllowViewChange(false);
+		}
+		break;
+	case EUpperBody::Eat:
+		if (!Montage_IsPlaying(PlayerPunchMontage))
+		{
+			Montage_Play(PlayerPunchMontage);
+			CurrentMontage = PlayerPunchMontage;
+			AllowViewChange(false);
+		}
+		break;
 	}
+}
+
+void USiAiPlayerAnim::AllowViewChange(bool IsAllow)
+{
+	if (!SPCharacter)return;
+	SPCharacter->IsAllowSwitch = IsAllow;
 }
