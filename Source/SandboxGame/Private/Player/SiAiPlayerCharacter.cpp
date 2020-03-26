@@ -83,18 +83,15 @@ ASiAiPlayerCharacter::ASiAiPlayerCharacter()
 	//设置偏移
 	FirstCamera->AddLocalOffset(FVector(0.f, 0.f, 60.f));
 
-	//默认第三人称
-	FirstCamera->SetActive(false);
-	ThirdCamera->SetActive(true);
-	//不显示第一人称模型
-	GetMesh()->SetOwnerNoSee(false);
-	MeshFirst->SetOwnerNoSee(true);
-
 	//初始化参数
 	BaseTurnRate = 45.f;
 	BaseLookUpRate = 45.f;
 	//设置初始速度为150.f
 	GetCharacterMovement()->MaxWalkSpeed = 150.f;
+
+	// 初始为第三人人称
+	GameView = EGameViewMode::Third;
+	ChangeView(GameView);
 
 }
 
@@ -130,6 +127,30 @@ void ASiAiPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInpu
 	PlayerInputComponent->BindAction("Run", IE_Pressed, this, &ASiAiPlayerCharacter::OnStartRun);
 	PlayerInputComponent->BindAction("Run", IE_Released, this, &ASiAiPlayerCharacter::OnStopRun);
 
+}
+
+void ASiAiPlayerCharacter::ChangeView(EGameViewMode::Type NewGameView)
+{
+	GameView = NewGameView;
+	switch (GameView)
+	{
+	case EGameViewMode::First:
+		FirstCamera->SetActive(true);
+		ThirdCamera->SetActive(false);
+		GetMesh()->SetOwnerNoSee(true);
+		MeshFirst->SetOwnerNoSee(false);
+		break;
+	case EGameViewMode::Third:
+		// 默认第三人称
+		FirstCamera->SetActive(false);
+		ThirdCamera->SetActive(true);
+		// 不显示第一人称模型
+		GetMesh()->SetOwnerNoSee(false);
+		MeshFirst->SetOwnerNoSee(true);
+		break;
+	default:
+		break;
+	}
 }
 
 void ASiAiPlayerCharacter::MoveForward(float Value)

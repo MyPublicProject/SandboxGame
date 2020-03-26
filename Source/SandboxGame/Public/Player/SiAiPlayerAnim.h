@@ -6,6 +6,7 @@
 #include "Animation/AnimInstance.h"
 #include "SiAiPlayerAnim.generated.h"
 
+class UAnimMontage;
 /**
  * 
  */
@@ -28,10 +29,20 @@ protected:
 	// 更新属性
 	virtual void UpdateParameter();
 
+	// 更新动作
+	virtual void UpdateMontage();
+
 protected:
 
 	//角色指针
 	class ASiAiPlayerCharacter* SPCharacter;
+
+	//上半身的Montage
+	UAnimMontage* PlayerHitMontage;
+	UAnimMontage* PlayerFightMontage;
+	UAnimMontage* PlayerPunchMontage;
+	UAnimMontage* PlayerEatMontage;
+	UAnimMontage* PlayerPickUpMontage;
 
 public:
 

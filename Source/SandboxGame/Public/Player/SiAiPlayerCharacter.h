@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "AiSiTypes.h"
 #include "SiAiPlayerCharacter.generated.h"
 
 class USpringArmComponent;
@@ -26,6 +27,9 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	// ÐÞ¸ÄÊÓ½Ç
+	void ChangeView(EGameViewMode::Type NewGameView);
+
 public:
 
 	UPROPERTY(VisibleDefaultsOnly, Category = "SiAi")
@@ -34,6 +38,8 @@ public:
 		UCameraComponent *ThirdCamera;
 	UPROPERTY(VisibleDefaultsOnly, Category = "SiAi")
 		UCameraComponent *FirstCamera;
+	
+	EGameViewMode::Type GameView;
 
 protected:
 	// Called when the game starts or when spawned

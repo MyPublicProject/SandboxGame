@@ -14,6 +14,7 @@ void USiAiPlayerAnim::NativeUpdateAnimation(float DeltaSeconds)
 {
 	InitSPCharacter();
 	UpdateParameter();
+	UpdateMontage();
 }
 
 void USiAiPlayerAnim::InitSPCharacter()
@@ -34,4 +35,13 @@ void USiAiPlayerAnim::UpdateParameter()
 	if (SpineDir > 180.f) SpineDir -= 360.f;
 	if (SpineDir < -180.f) SpineDir += 360.f;
 	SpineRotator = FRotator(0.f, SpineDir, 90.f);
+}
+
+void USiAiPlayerAnim::UpdateMontage()
+{
+	if (!SPCharacter) return;
+	if (!Montage_IsPlaying(PlayerPunchMontage))
+	{
+		Montage_Play(PlayerPunchMontage);
+	}
 }
