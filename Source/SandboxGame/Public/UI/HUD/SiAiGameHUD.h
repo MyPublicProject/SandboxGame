@@ -14,7 +14,12 @@ class SANDBOXGAME_API ASiAiGameHUD : public AHUD
 {
 	GENERATED_BODY()
 	
-	
-	
+public:
+
+	ASiAiGameHUD();
+
+private:
+
+	TSharedPtr<class SSiAiGameHUDWidget> GameHUDWidget;
 	
 };
