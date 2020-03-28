@@ -9,6 +9,7 @@
 SiAiJsonHandle::SiAiJsonHandle()
 {
 	RecordDataFileName = FString("RecordData.json");
+	ObjectAttrFileName = FString("ObjectAttribute.json");
 
 	RelativePath = FString("Res/ConfigData/");
 }
@@ -85,6 +86,41 @@ void SiAiJsonHandle::UpdataRecordData(FString Culture, float MusicVolume, float 
 
 }
 
+void SiAiJsonHandle::ObjectAttrJsonRead(TMap<int, TSharedPtr<ObjectAttribute>> &ObjectAttrMap)
+{
+	FString JsonValue;
+	// 读取文档函数
+	LoadStringFromFile(ObjectAttrFileName, RelativePath, JsonValue);
+	// 声明变量
+	TArray<TSharedPtr<FJsonValue>> JsonParsed;
+	TSharedRef<TJsonReader<TCHAR>> JsonReader = TJsonReaderFactory<TCHAR>::Create(JsonValue);
+	// 变量赋值
+	if (FJsonSerializer::Deserialize(JsonReader, JsonParsed))
+	{
+		for (int i = 0; i < JsonParsed.Num(); i++)
+		{
+			TArray<TSharedPtr<FJsonValue>> ObjectAttr = JsonParsed[i]->AsObject()->GetArrayField(FString::FromInt(i));
+			FText EN = FText::FromString(ObjectAttr[0]->AsObject()->GetStringField("EN"));
+			FText ZH = FText::FromString(ObjectAttr[1]->AsObject()->GetStringField("ZH"));
+			FString ObjectTypeStr = ObjectAttr[2]->AsObject()->GetStringField("ObjectType");
+			int PlantAttack = ObjectAttr[3]->AsObject()->GetIntegerField("PlantAttack");
+			int MetalAttcck = ObjectAttr[4]->AsObject()->GetIntegerField("MetalAttcck");
+			int AnimalAttack = ObjectAttr[5]->AsObject()->GetIntegerField("AnimalAttack");
+			int AffectRange = ObjectAttr[6]->AsObject()->GetIntegerField("AffectRange");
+			FString TexPath = ObjectAttr[7]->AsObject()->GetStringField("TexPath");
+			// 字符串转化成对应的枚举
+			EObjectType::Type ObjectType = StringToObjectType(ObjectTypeStr);
+			TSharedPtr<ObjectAttribute> ObjectAttrPtr = MakeShareable(new ObjectAttribute(EN, ZH, ObjectType, PlantAttack, MetalAttcck, AnimalAttack, AffectRange, TexPath));
+
+			ObjectAttrMap.Add(i, ObjectAttrPtr);
+		}
+	}
+	else
+	{
+		SiAiHelper::Debug(FString("Deserialize Failed"));
+	}
+}
+
 bool SiAiJsonHandle::LoadStringFromFile(const FString& FileName, const FString& RelaPath, FString& ResultString)
 {
 	if (!FileName.IsEmpty())
@@ -140,4 +176,13 @@ bool SiAiJsonHandle::WriteFileWithJsonData(const FString &JsonStr, const FString
 		}
 	}
 	return false;
+}
+
+EObjectType::Type SiAiJsonHandle::StringToObjectType(const FString ArgStr)
+{
+	if (ArgStr.Equals(FString("Normal"))) return EObjectType::Normal;
+	if (ArgStr.Equals(FString("Food"))) return EObjectType::Food;
+	if (ArgStr.Equals(FString("Tool"))) return EObjectType::Tool;
+	if (ArgStr.Equals(FString("Weapon"))) return EObjectType::Weapon;
+	return EObjectType::Normal;
 }

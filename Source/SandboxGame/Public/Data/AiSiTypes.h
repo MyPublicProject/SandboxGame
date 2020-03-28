@@ -81,3 +81,107 @@ namespace EUpperBody
 		Eat,
 	};
 }
+
+//物品类型
+namespace EObjectType
+{
+	enum Type
+	{
+		Normal = 0,//普通物品,木头,石头
+		Food,//食物,苹果,肉
+		Tool,//工具,锤子,斧子
+		Weapon//武器,剑
+	};
+}
+
+// 物品属性结构
+struct ObjectAttribute
+{
+	FText EN;//英文名
+	FText ZH;//中文名
+	EObjectType::Type ObjectType;//物品类型
+	int PlantAttack;//对植物的攻击力
+	int MetalAttcck;//对金属资源的攻击力
+	int AnimalAttack;//对动物的攻击力
+	int AffectRange;//攻击距离
+	FString TexPath;//图片路径
+	//构造函数
+	ObjectAttribute(const FText ENName, const FText ZHName, const EObjectType::Type OT, const int PA, const int MA, const int AA, const int AR, const FString TP) {
+		EN = ENName;
+		ZH = ZHName;
+		ObjectType = OT;
+		PlantAttack = PA;
+		MetalAttcck = MA;
+		AnimalAttack = AA;
+		AffectRange = AR;
+		TexPath = TP;
+	}
+};
+
+// 快捷栏容器结构体
+struct ShortcutContainer
+{
+	// 物品 ID
+	int ObjectIndex;
+	int ObjectNum;
+	TSharedPtr<SBorder> ContainerBorder;
+	TSharedPtr<SBorder> ObjectImage;
+	TSharedPtr<STextBlock> ObjectNumText;
+	const FSlateBrush *NormalContainerBrush;
+	const FSlateBrush *ChoosedContainerBrush;
+	TArray<const FSlateBrush*> *ObjectBrushList;
+
+	ShortcutContainer(TSharedPtr<SBorder> CB, TSharedPtr<SBorder> OI, TSharedPtr<STextBlock> ONT, const FSlateBrush* NCB, const FSlateBrush* CCB, TArray<const FSlateBrush*>* OBL)
+	{
+		ContainerBorder = CB;
+		ObjectImage = OI;
+		ObjectNumText = ONT;
+		NormalContainerBrush = NCB;
+		ChoosedContainerBrush = CCB;
+		ObjectBrushList = OBL;
+
+		//初始化显示设置
+		ObjectIndex = 0;
+		ObjectNum = 0;
+		ContainerBorder->SetBorderImage(NormalContainerBrush);
+		ObjectImage->SetBorderImage((*ObjectBrushList)[0]);
+	}
+
+	// 设置是否选中当前物品， True 是要选中， 返回物品类型
+	int SetChoosed(bool Option)
+	{
+		if (Option)
+		{
+			ContainerBorder->SetBorderImage(ChoosedContainerBrush);
+		}
+		else
+		{
+			ContainerBorder->SetBorderImage(NormalContainerBrush);
+		}
+		return ObjectIndex;
+	}
+
+	// 设置 Index
+	ShortcutContainer *SetObject(int NewIndex)
+	{
+		ObjectIndex = NewIndex;
+		ObjectImage->SetBorderImage((*ObjectBrushList)[ObjectIndex]);
+		return this;
+	}
+
+	// 设置数量
+	ShortcutContainer *SetObjectNum(int Num = 0)
+	{
+		ObjectNum = Num;
+		// 如果数量为 0 或 1， 不显示数字
+		if (ObjectNum == 0 || ObjectNum == 1)
+		{
+			ObjectNumText->SetText(FString(""));
+		}
+		else
+		{
+			ObjectNumText->SetText(FString::FromInt(ObjectNum));
+		}
+		return this;
+	}
+};

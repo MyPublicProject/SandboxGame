@@ -71,6 +71,12 @@ void SlAiDataHandle::ResetMenuVolume(float MusicVol, float SoundVol)
 	SiAiSingleton<SiAiJsonHandle>::Get()->UpdataRecordData(GetEnumValueAsString<ECultureTeam>(FString("ECultureTeam"), CurrentCulture), MusicVolume, SoundVolume, &RecordDataList);
 }
 
+void SlAiDataHandle::InitializeGameData()
+{
+	// 初始化物品属性
+	InitObjectAtte();
+}
+
 TSharedRef<SlAiDataHandle> SlAiDataHandle::Create()
 {
 	// MakeShareable 创建共享指针共享引用
@@ -139,4 +145,9 @@ void SlAiDataHandle::InitializedMenuAudio()
 
 	//重置一下声音
 	ResetMenuVolume(MusicVolume, SoundVolume);
+}
+
+void SlAiDataHandle::InitObjectAtte()
+{
+	SiAiSingleton<SiAiJsonHandle>::Get()->ObjectAttrJsonRead(ObjectAttrMap);
 }

@@ -66,17 +66,14 @@ void SSiAiShortcutWidget::InitializeContainer()
 
 		SAssignNew(ContainerBordet, SBorder)
 		.Padding(FMargin(10.f))
-		.BorderImage(&GameStyle->NormalContainerBrush)
 		[
 			SAssignNew(ObjectImage, SBorder)
-			.BorderImage(&GameStyle->EmptyBrush)
 			.HAlign(HAlign_Right)
 			.VAlign(VAlign_Bottom)
 			[
 				SAssignNew(ObjectNumText, STextBlock)
 				.Font(GameStyle->Font_Outline_20)
 				.ColorAndOpacity(GameStyle->FontColor_Black)
-				.Text(FText::FromString("Test"))
 			]
 		];
 		GridPanel->AddSlot(i, 0)

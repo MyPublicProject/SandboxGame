@@ -25,6 +25,9 @@ public:
 
 	// 修改菜单音量
 	void ResetMenuVolume(float MusicVal, float SoundVal);
+	
+	// 游戏数据初始化
+	void InitializeGameData();
 
 public:
 
@@ -40,6 +43,9 @@ public:
 
 	// 存档名
 	FString RecordName;
+
+	// 物品属性
+	TMap<int, TSharedPtr<ObjectAttribute>> ObjectAttrMap;
 
 private:
 
@@ -59,6 +65,9 @@ private:
 
 	// 初始化 Menu 声音数据
 	void InitializedMenuAudio();
+
+	// 初始化物品属性
+	void InitObjectAtte();
 
 private:
 

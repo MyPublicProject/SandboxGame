@@ -5,6 +5,7 @@
 #include "Player/SiAiPlayerState.h"
 #include "Player/SiAiPlayerCharacter.h"
 #include "Player/SiAiPlayerController.h"
+#include "SlAiDataHandle.h"
 
 
 
@@ -23,7 +24,8 @@ ASiAiGameMode::ASiAiGameMode()
 
 void ASiAiGameMode::Tick(float DeltaSeconds)
 {
-
+	// 初始化游戏数据
+	SlAiDataHandle::Get()->InitializeGameData();
 }
 
 void ASiAiGameMode::BeginPlay()
