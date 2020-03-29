@@ -8,6 +8,7 @@
 #include "SiAiStyle.h"
 #include "SiAiMenuWidgetStyle.h"
 #include "Sound/SoundCue.h"
+#include "SiAiGameWidgetStyle.h"
 
 TSharedPtr<SlAiDataHandle> SlAiDataHandle::DataInstance = NULL;
 
@@ -150,4 +151,17 @@ void SlAiDataHandle::InitializedMenuAudio()
 void SlAiDataHandle::InitObjectAtte()
 {
 	SiAiSingleton<SiAiJsonHandle>::Get()->ObjectAttrJsonRead(ObjectAttrMap);
+
+	// 获取GameStyle
+	GameStyle = &SiAiStyle::Get().GetWidgetStyle<FSiAiGameStyle>("BPSiAiGameStyle");
+
+	// 填充笔刷数组
+	ObjectBrushList.Add(&GameStyle->EmptyBrush);
+	ObjectBrushList.Add(&GameStyle->ObjectBrush_1);
+	ObjectBrushList.Add(&GameStyle->ObjectBrush_2);
+	ObjectBrushList.Add(&GameStyle->ObjectBrush_3);
+	ObjectBrushList.Add(&GameStyle->ObjectBrush_4);
+	ObjectBrushList.Add(&GameStyle->ObjectBrush_5);
+	ObjectBrushList.Add(&GameStyle->ObjectBrush_6);
+	ObjectBrushList.Add(&GameStyle->ObjectBrush_7);
 }

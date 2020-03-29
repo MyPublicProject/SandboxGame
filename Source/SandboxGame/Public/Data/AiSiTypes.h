@@ -3,6 +3,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "SBorder.h"
+#include "STextBlock.h"
+#include "Engine/Engine.h"
 
 /**
  * 
@@ -129,9 +132,9 @@ struct ShortcutContainer
 	TSharedPtr<STextBlock> ObjectNumText;
 	const FSlateBrush *NormalContainerBrush;
 	const FSlateBrush *ChoosedContainerBrush;
-	TArray<const FSlateBrush*> *ObjectBrushList;
+	TArray<const FSlateBrush*> ObjectBrushList;
 
-	ShortcutContainer(TSharedPtr<SBorder> CB, TSharedPtr<SBorder> OI, TSharedPtr<STextBlock> ONT, const FSlateBrush* NCB, const FSlateBrush* CCB, TArray<const FSlateBrush*>* OBL)
+	ShortcutContainer(TSharedPtr<SBorder> CB, TSharedPtr<SBorder> OI, TSharedPtr<STextBlock> ONT, const FSlateBrush* NCB, const FSlateBrush* CCB, TArray<const FSlateBrush*> OBL)
 	{
 		ContainerBorder = CB;
 		ObjectImage = OI;
@@ -144,7 +147,7 @@ struct ShortcutContainer
 		ObjectIndex = 0;
 		ObjectNum = 0;
 		ContainerBorder->SetBorderImage(NormalContainerBrush);
-		ObjectImage->SetBorderImage((*ObjectBrushList)[0]);
+		ObjectImage->SetBorderImage(ObjectBrushList[0]);
 	}
 
 	// 设置是否选中当前物品， True 是要选中， 返回物品类型
@@ -165,7 +168,8 @@ struct ShortcutContainer
 	ShortcutContainer *SetObject(int NewIndex)
 	{
 		ObjectIndex = NewIndex;
-		ObjectImage->SetBorderImage((*ObjectBrushList)[ObjectIndex]);
+		// GEngine->AddOnScreenDebugMessage(-1, 100.0, FColor::Red, FString::FromInt(ObjectIndex));
+		ObjectImage->SetBorderImage(ObjectBrushList[ObjectIndex]);
 		return this;
 	}
 

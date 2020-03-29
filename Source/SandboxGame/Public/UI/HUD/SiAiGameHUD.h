@@ -18,6 +18,15 @@ public:
 
 	ASiAiGameHUD();
 
+public:
+
+	// ±£´æ GameMode
+	class ASiAiGameMode* GM;
+
+protected:
+
+	virtual void BeginPlay() override;
+
 private:
 
 	TSharedPtr<class SSiAiGameHUDWidget> GameHUDWidget;

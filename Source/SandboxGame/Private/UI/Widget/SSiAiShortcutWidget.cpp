@@ -9,6 +9,8 @@
 #include "STextBlock.h"
 #include "SBorder.h"
 #include "SUniformGridPanel.h"
+#include "AiSiTypes.h"
+#include "SlAiDataHandle.h"
 
 BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
 void SSiAiShortcutWidget::Construct(const FArguments& InArgs)
@@ -42,6 +44,9 @@ void SSiAiShortcutWidget::Construct(const FArguments& InArgs)
 			]
 		]
 	];
+
+	//设置没有初始化容器
+	IsInitializeContainer = false;
 }
 
 void SSiAiShortcutWidget::Tick(const FGeometry& AllottedGeometry, const double InCurrentTime, const float InDeltaTime)
@@ -57,28 +62,40 @@ END_SLATE_FUNCTION_BUILD_OPTIMIZATION
 
 void SSiAiShortcutWidget::InitializeContainer()
 {
+	TArray<TSharedPtr<ShortcutContainer>> ContainerList;
+
 	for (int i = 0; i < 9; i++) 
 	{
 		// 创建容器
-		TSharedPtr<SBorder> ContainerBordet;
+		TSharedPtr<SBorder> ContainerBorder;
 		TSharedPtr<SBorder> ObjectImage;
 		TSharedPtr<STextBlock> ObjectNumText;
 
-		SAssignNew(ContainerBordet, SBorder)
+		SAssignNew(ContainerBorder, SBorder)
 		.Padding(FMargin(10.f))
 		[
 			SAssignNew(ObjectImage, SBorder)
 			.HAlign(HAlign_Right)
 			.VAlign(VAlign_Bottom)
+			.Padding(FMargin(0.f, 0.f, 5.f, 0.f))
 			[
 				SAssignNew(ObjectNumText, STextBlock)
 				.Font(GameStyle->Font_Outline_20)
 				.ColorAndOpacity(GameStyle->FontColor_Black)
 			]
 		];
+		// 将容器添加到网格
 		GridPanel->AddSlot(i, 0)
 		[
-			ContainerBordet->AsShared()
+			ContainerBorder->AsShared()
 		];
+		// 实例化一个容器结构体
+		TSharedPtr<ShortcutContainer> Container = MakeShareable(new ShortcutContainer(ContainerBorder, ObjectImage, ObjectNumText, &GameStyle->NormalContainerBrush, &GameStyle->ChoosedContainerBrush, SlAiDataHandle::Get()->ObjectBrushList));
+		// 如果是第一个容器，设为选中状态
+		if (i == 0) Container->SetChoosed(true);
+		
+		ContainerList.Add(Container);
 	}
+	// 将实例化的结构体注册进 PlayerState 的容器数组里
+	RegisterShortcutContainer.ExecuteIfBound(&ContainerList, ShortcutInfoTextBlock);
 }

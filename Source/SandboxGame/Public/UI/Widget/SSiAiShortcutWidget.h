@@ -4,6 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "Widgets/SCompoundWidget.h"
+#include "AiSiTypes.h"
+#include "STextBlock.h"
+
+// 注册快捷栏到 PlayerState 的委托
+DECLARE_DELEGATE_TwoParams(FRegisterShortcutContainer, TArray<TSharedPtr<ShortcutContainer>>*, TSharedPtr<STextBlock>)
+
 
 /**
  * 
@@ -19,6 +25,10 @@ public:
 	void Construct(const FArguments& InArgs);
 
 	virtual void Tick(const FGeometry& AllottedGeometry, const double InCurrentTime, const float InDeltaTime) override;
+
+public:
+
+	FRegisterShortcutContainer RegisterShortcutContainer;
 
 private:
 

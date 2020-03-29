@@ -6,6 +6,7 @@
 #include "Player/SiAiPlayerCharacter.h"
 #include "Player/SiAiPlayerController.h"
 #include "SlAiDataHandle.h"
+#include "Kismet/GameplayStatics.h"
 
 
 
@@ -24,11 +25,21 @@ ASiAiGameMode::ASiAiGameMode()
 
 void ASiAiGameMode::Tick(float DeltaSeconds)
 {
-	// 初始化游戏数据
-	SlAiDataHandle::Get()->InitializeGameData();
+
+}
+
+void ASiAiGameMode::InitGamePlayModule()
+{
+	// 添加引用
+	SPController = Cast<ASiAiPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
+	SPCharacter = Cast<ASiAiPlayerCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+	SPState = Cast<ASiAiPlayerState>(SPController->PlayerState);
 }
 
 void ASiAiGameMode::BeginPlay()
 {
+	// 初始化游戏数据
+	SlAiDataHandle::Get()->InitializeGameData();
 
+	if (!SPController) InitGamePlayModule();
 }

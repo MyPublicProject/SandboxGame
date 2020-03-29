@@ -38,6 +38,22 @@ struct SANDBOXGAME_API FSiAiGameStyle : public FSlateWidgetStyle
 	//指定没有颜色的Brush
 	UPROPERTY(EditAnywhere, Category = Package)
 		FSlateBrush EmptyBrush;
+
+	//物品的Brush
+	UPROPERTY(EditAnywhere, Category = Package)
+		FSlateBrush ObjectBrush_1;
+	UPROPERTY(EditAnywhere, Category = Package)
+		FSlateBrush ObjectBrush_2;
+	UPROPERTY(EditAnywhere, Category = Package)
+		FSlateBrush ObjectBrush_3;
+	UPROPERTY(EditAnywhere, Category = Package)
+		FSlateBrush ObjectBrush_4;
+	UPROPERTY(EditAnywhere, Category = Package)
+		FSlateBrush ObjectBrush_5;
+	UPROPERTY(EditAnywhere, Category = Package)
+		FSlateBrush ObjectBrush_6;
+	UPROPERTY(EditAnywhere, Category = Package)
+		FSlateBrush ObjectBrush_7;
 	
 	// 60号字体
 	UPROPERTY(EditAnywhere, Category = Common)

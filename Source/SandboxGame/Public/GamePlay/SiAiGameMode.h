@@ -20,6 +20,17 @@ public:
 
 	virtual void Tick(float DeltaSeconds) override;
 
+	// 组件赋值，给GameHUD调用，避免空引用引起的崩溃
+	void InitGamePlayModule();
+
+public:
+
+	class ASiAiPlayerController *SPController;
+
+	class ASiAiPlayerCharacter *SPCharacter;
+
+	class ASiAiPlayerState *SPState;
+
 protected:
 
 	virtual void BeginPlay() override;

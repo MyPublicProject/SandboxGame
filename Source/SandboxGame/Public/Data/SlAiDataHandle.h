@@ -47,6 +47,9 @@ public:
 	// 物品属性
 	TMap<int, TSharedPtr<ObjectAttribute>> ObjectAttrMap;
 
+	// 物品贴图资源数组
+	TArray<const FSlateBrush*> ObjectBrushList;
+
 private:
 
 	// 创建单例
@@ -78,5 +81,8 @@ private:
 
 	//获取MenuStyle,里面存放有声音文件
 	const struct FSiAiMenuStyle *MenuStyle;
+
+	//获取GameStyle
+	const struct FSiAiGameStyle* GameStyle;
 
 };
