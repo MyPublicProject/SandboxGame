@@ -23,6 +23,9 @@ public:
 
 	virtual void SetupInputComponent() override;
 
+	//对Character的手持物品进行更改,这个函数在playerstate内会调用
+	void ChangeHandObject();
+
 protected:
 
 	//角色指针
@@ -48,6 +51,12 @@ private:
 	// 鼠标滚轮事件
 	void ScrollUpEvent();
 	void ScrollDownEvent();
+
+	// 退出游戏
+	void QuitGame();
+
+	// 修改预动作
+	void ChangePreUpperType(EUpperBody::Type RightType);
 
 private:
 

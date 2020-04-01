@@ -14,7 +14,12 @@ class SANDBOXGAME_API ASiAiHandNone : public ASiAiHandObject
 {
 	GENERATED_BODY()
 	
+public:
+
+	ASiAiHandNone();
+
+protected:
 	
-	
+	virtual void BeginPlay() override;
 	
 };

@@ -12,6 +12,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Components/ChildActorComponent.h"
 #include "Animation/AnimInstance.h"
+#include "SiAiHandObject.h"
 
 
 // Sets default values
@@ -96,7 +97,13 @@ ASiAiPlayerCharacter::ASiAiPlayerCharacter()
 
 	// 初始为第三人人称
 	GameView = EGameViewMode::Third;
-	ChangeView(GameView);
+	// 析构函数运行时函数还没有解析完成，说以析构函数里不可以调用函数
+	// ChangeView(GameView);
+	FirstCamera->SetActive(false);
+	ThirdCamera->SetActive(true);
+	// 不显示第一人称模型
+	GetMesh()->SetOwnerNoSee(false);
+	MeshFirst->SetOwnerNoSee(true);
 
 	// 初始化动作为无动作
 	UpperType = EUpperBody::None;
@@ -112,6 +119,8 @@ void ASiAiPlayerCharacter::BeginPlay()
 	
 	// 把手持物品组件绑定到第三人称模型右手插槽
 	HandObject->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, FName("RHSocket"));
+	// 添加 Actor 到 HandObject
+	HandObject->SetChildActorClass(ASiAiHandObject::SpawnHandObject(0));
 }
 
 // Called every frame
@@ -151,6 +160,8 @@ void ASiAiPlayerCharacter::ChangeView(EGameViewMode::Type NewGameView)
 		ThirdCamera->SetActive(false);
 		GetMesh()->SetOwnerNoSee(true);
 		MeshFirst->SetOwnerNoSee(false);
+		//修改handobject绑定的位置
+		HandObject->AttachToComponent(MeshFirst, FAttachmentTransformRules::SnapToTargetNotIncludingScale, FName("RHSocket"));
 		break;
 	case EGameViewMode::Third:
 		// 默认第三人称
@@ -159,10 +170,16 @@ void ASiAiPlayerCharacter::ChangeView(EGameViewMode::Type NewGameView)
 		// 不显示第一人称模型
 		GetMesh()->SetOwnerNoSee(false);
 		MeshFirst->SetOwnerNoSee(true);
-		break;
-	default:
+		//修改handobject绑定的位置
+		HandObject->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, FName("RHSocket"));
 		break;
 	}
+}
+
+void ASiAiPlayerCharacter::ChangeHandObject(int32 Index)
+{
+	// 
+	HandObject->SetChildActorClass(ASiAiHandObject::SpawnHandObject(Index));
 }
 
 void ASiAiPlayerCharacter::MoveForward(float Value)

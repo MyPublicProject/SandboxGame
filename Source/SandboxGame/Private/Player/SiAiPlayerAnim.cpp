@@ -60,42 +60,37 @@ void USiAiPlayerAnim::UpdateMontage()
 		}
 		break;
 	case EUpperBody::Punch:
-		if (!Montage_IsPlaying(PlayerPunchMontage))
-		{
+		if (!Montage_IsPlaying(PlayerPunchMontage)) {
 			Montage_Play(PlayerPunchMontage);
 			CurrentMontage = PlayerPunchMontage;
 			AllowViewChange(false);
 		}
 		break;
 	case EUpperBody::Hit:
-		if (!Montage_IsPlaying(PlayerPunchMontage))
-		{
-			Montage_Play(PlayerPunchMontage);
-			CurrentMontage = PlayerPunchMontage;
+		if (!Montage_IsPlaying(PlayerHitMontage)) {
+			Montage_Play(PlayerHitMontage);
+			CurrentMontage = PlayerHitMontage;
 			AllowViewChange(false);
 		}
 		break;
 	case EUpperBody::Fight:
-		if (!Montage_IsPlaying(PlayerPunchMontage))
-		{
-			Montage_Play(PlayerPunchMontage);
-			CurrentMontage = PlayerPunchMontage;
+		if (!Montage_IsPlaying(PlayerFightMontage)) {
+			Montage_Play(PlayerFightMontage);
+			CurrentMontage = PlayerFightMontage;
 			AllowViewChange(false);
 		}
 		break;
 	case EUpperBody::PickUp:
-		if (!Montage_IsPlaying(PlayerPunchMontage))
-		{
-			Montage_Play(PlayerPunchMontage);
-			CurrentMontage = PlayerPunchMontage;
+		if (!Montage_IsPlaying(PlayerPickUpMontage)) {
+			Montage_Play(PlayerPickUpMontage);
+			CurrentMontage = PlayerPickUpMontage;
 			AllowViewChange(false);
 		}
 		break;
 	case EUpperBody::Eat:
-		if (!Montage_IsPlaying(PlayerPunchMontage))
-		{
-			Montage_Play(PlayerPunchMontage);
-			CurrentMontage = PlayerPunchMontage;
+		if (!Montage_IsPlaying(PlayerEatMontage)) {
+			Montage_Play(PlayerEatMontage);
+			CurrentMontage = PlayerEatMontage;
 			AllowViewChange(false);
 		}
 		break;

@@ -14,7 +14,12 @@ class SANDBOXGAME_API ASiAiHandWood : public ASiAiHandObject
 {
 	GENERATED_BODY()
 	
+public:
+
+	ASiAiHandWood();
 	
-	
+protected:
+
+	virtual void BeginPlay() override;
 	
 };

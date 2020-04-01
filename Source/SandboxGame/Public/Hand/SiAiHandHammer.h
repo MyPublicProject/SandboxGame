@@ -14,7 +14,17 @@ class SANDBOXGAME_API ASiAiHandHammer : public ASiAiHandObject
 {
 	GENERATED_BODY()
 	
-	
-	
+public:
+
+	ASiAiHandHammer();
+
+protected:
+
+	virtual void BeginPlay() override;
+
+protected:
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Mesh)
+		UStaticMeshComponent* ExtendMesh;
 	
 };

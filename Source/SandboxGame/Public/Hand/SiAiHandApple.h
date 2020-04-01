@@ -4,22 +4,22 @@
 
 #include "CoreMinimal.h"
 #include "Hand/SiAiHandObject.h"
-#include "SiAiHandAxe.generated.h"
+#include "SiAiHandApple.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class SANDBOXGAME_API ASiAiHandAxe : public ASiAiHandObject
+class SANDBOXGAME_API ASiAiHandApple : public ASiAiHandObject
 {
 	GENERATED_BODY()
-
+	
 public:
 
-	ASiAiHandAxe();
-	
+	ASiAiHandApple();
+
 protected:
 	
 	virtual void BeginPlay() override;
-
+	
 };

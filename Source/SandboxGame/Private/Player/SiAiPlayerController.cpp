@@ -3,8 +3,9 @@
 #include "SiAiPlayerController.h"
 #include "Player/SiAiPlayerCharacter.h"
 #include "Player/SiAiPlayerState.h"
-
-
+#include "SiAiMenuController.h"
+#include "Kismet/GameplayStatics.h"
+#include "SiAiHelper.h"
 
 
 ASiAiPlayerController::ASiAiPlayerController()
@@ -15,7 +16,8 @@ ASiAiPlayerController::ASiAiPlayerController()
 
 void ASiAiPlayerController::Tick(float DeltaSeconds)
 {
-
+	Super::Tick(DeltaSeconds);
+	ChangePreUpperType(EUpperBody::None);
 }
 
 void ASiAiPlayerController::SetupInputComponent()
@@ -31,6 +33,14 @@ void ASiAiPlayerController::SetupInputComponent()
 	// 绑定鼠标滚轮事件
 	InputComponent->BindAction("ScrollUp", IE_Pressed, this, &ASiAiPlayerController::ScrollUpEvent);
 	InputComponent->BindAction("ScrollDown", IE_Pressed, this, &ASiAiPlayerController::ScrollDownEvent);
+	// 退出游戏
+	InputComponent->BindAction("QuitGame", IE_Pressed, this, &ASiAiPlayerController::QuitGame);
+}
+
+void ASiAiPlayerController::ChangeHandObject()
+{
+	// 切换手持物品
+	SPCharacter->ChangeHandObject(SPState->GetCurrentHandObjectIndex());
 }
 
 void ASiAiPlayerController::BeginPlay()
@@ -45,8 +55,8 @@ void ASiAiPlayerController::BeginPlay()
 	InputMode.SetConsumeCaptureMouseDown(true);
 	SetInputMode(InputMode);
 
-	LeftUpperType = EUpperBody::PickUp;
-	RightUpperType = EUpperBody::PickUp;
+// 	LeftUpperType = EUpperBody::PickUp;
+// 	RightUpperType = EUpperBody::PickUp;
 
 	IsRightButtonDown = false;
 	IsLeftButtonDown = false;
@@ -104,6 +114,9 @@ void ASiAiPlayerController::ScrollUpEvent()
 
 	// 告诉快捷栏切换快捷容器
 	SPState->ChooseShortcut(true);
+
+	//更改Character的手持物品
+	ChangeHandObject();
 }
 
 void ASiAiPlayerController::ScrollDownEvent()
@@ -116,4 +129,39 @@ void ASiAiPlayerController::ScrollDownEvent()
 
 	// 告诉快捷栏切换快捷容器
 	SPState->ChooseShortcut(false);
+
+	//更改Character的手持物品
+	ChangeHandObject();
+}
+
+void ASiAiPlayerController::QuitGame()
+{
+	// 控制台
+	Cast<ASiAiMenuController>(UGameplayStatics::GetPlayerController(GWorld, 0))->ConsoleCommand("quit");
+}
+
+void ASiAiPlayerController::ChangePreUpperType(EUpperBody::Type RightType = EUpperBody::None)
+{
+	//根据当前手持物品的类型来修改预动作
+	switch (SPState->GetCurrentObjectType())
+	{
+	case EObjectType::Normal:
+		LeftUpperType = EUpperBody::Punch;
+		RightUpperType = RightType;
+		break;
+	case EObjectType::Food:
+		LeftUpperType = EUpperBody::Punch;
+		//如果右键状态是拾取那就给拾取,拾取优先级高
+		RightUpperType = RightType == EUpperBody::None ? EUpperBody::Eat : RightType;
+		break;
+	case EObjectType::Tool:
+		LeftUpperType = EUpperBody::Hit;
+		RightUpperType = RightType;
+		break;
+	case EObjectType::Weapon:
+		LeftUpperType = EUpperBody::Fight;
+		RightUpperType = RightType;
+		break;
+	}
+	SiAiHelper::Debug("LeftUpperType", 0.f);
 }

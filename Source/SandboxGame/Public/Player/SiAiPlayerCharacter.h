@@ -31,6 +31,9 @@ public:
 	// 修改视角
 	void ChangeView(EGameViewMode::Type NewGameView);
 
+	// 修改当前的手持物品
+	void ChangeHandObject(int32 Index);
+
 public:
 
 	UPROPERTY(VisibleDefaultsOnly, Category = "SiAi")
