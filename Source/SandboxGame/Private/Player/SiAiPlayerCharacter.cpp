@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+ï»¿// Fill out your copyright notice in the Description page of Project Settings.
 
 #include "SiAiPlayerCharacter.h"
 #include "Engine/SkeletalMesh.h"
@@ -10,6 +10,8 @@
 #include "GameFramework/Character.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Components/ChildActorComponent.h"
+#include "Animation/AnimInstance.h"
 
 
 // Sets default values
@@ -18,10 +20,10 @@ ASiAiPlayerCharacter::ASiAiPlayerCharacter()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	// ÉèÖÃÈËÎïÅö×²
+	// è®¾ç½®äººç‰©ç¢°æ’
 	GetCapsuleComponent()->SetCollisionProfileName(FName("PlayerProfile"));
 
-	// Ìí¼ÓµÚÒ»ÈË³Æ¹Ç÷ÀÄ£ĞÍ
+	// æ·»åŠ ç¬¬ä¸€äººç§°éª¨éª¼æ¨¡å‹
 	static ConstructorHelpers::FObjectFinder<USkeletalMesh> StaticMeshFirst(TEXT("SkeletalMesh'/Game/Res/PolygonAdventure/Mannequin/FirstPlayer/SkMesh/FirstPlayer.FirstPlayer'"));
 	MeshFirst = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("MeshFirst"));
 	MeshFirst->SetSkeletalMesh(StaticMeshFirst.Object);
@@ -29,22 +31,22 @@ ASiAiPlayerCharacter::ASiAiPlayerCharacter()
 	MeshFirst->bOnlyOwnerSee = true;
 	MeshFirst->bCastDynamicShadow = false;
 	MeshFirst->bReceivesDecals = false;
-	//¸üĞÂÆµÂÊË¥Âä
+	// æ›´æ–°é¢‘ç‡è¡°è½
 	MeshFirst->MeshComponentUpdateFlag = EMeshComponentUpdateFlag::OnlyTickPoseWhenRendered;
 	MeshFirst->PrimaryComponentTick.TickGroup = TG_PrePhysics;
-	// ÉèÖÃÅö×²ÊôĞÔ
+	// è®¾ç½®ç¢°æ’å±æ€§
 	MeshFirst->SetCollisionObjectType(ECC_Pawn);
 	MeshFirst->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	MeshFirst->SetCollisionResponseToAllChannels(ECR_Ignore);
-	// ÉèÖÃÎ»ÖÃ
+	// è®¾ç½®ä½ç½®
 	MeshFirst->SetRelativeLocation(FVector(0.f, 0.f, -95.f));
 	MeshFirst->SetRelativeRotation(FQuat::MakeFromEuler(FVector(0.f, 0.f, -90.f)));
 
-	// »ñÈ¡µÚÒ»ÈË³ÆµÄ¶¯×÷À¶Í¼
+	// è·å–ç¬¬ä¸€äººç§°çš„åŠ¨ä½œè“å›¾
 	static ConstructorHelpers::FClassFinder<UAnimInstance> StaticAnimFirst(TEXT("AnimBlueprint'/Game/Blueprint/Player/FirstPlayer_Animation.FirstPlayer_Animation_C'"));
 	MeshFirst->AnimClass = StaticAnimFirst.Class;
 	
-	// ¸øÄ¬ÈÏ Mesh Ìí¼Ó¹Ç÷À
+	// ç»™é»˜è®¤ Mesh æ·»åŠ éª¨éª¼
 	static ConstructorHelpers::FObjectFinder<USkeletalMesh> StaticMeshThird(TEXT("SkeletalMesh'/Game/Res/PolygonAdventure/Mannequin/Player/SkMesh/Player.Player'"));
 	GetMesh()->SetSkeletalMesh(StaticMeshThird.Object);
 	GetMesh()->bOnlyOwnerSee = true;
@@ -55,47 +57,50 @@ ASiAiPlayerCharacter::ASiAiPlayerCharacter()
 	GetMesh()->SetRelativeLocation(FVector(0.f, 0.f, -95.f));
 	GetMesh()->SetRelativeRotation(FQuat::MakeFromEuler(FVector(0.f, 0.f, -90.f)));
 
-	// »ñÈ¡µÚÈıÈË³ÆµÄ¶¯×÷À¶Í¼
+	// è·å–ç¬¬ä¸‰äººç§°çš„åŠ¨ä½œè“å›¾
 	static ConstructorHelpers::FClassFinder<UAnimInstance> StaticAnimThird(TEXT("AnimBlueprint'/Game/Blueprint/Player/ThirdPlayer_Animation.ThirdPlayer_Animation_C'"));
 	GetMesh()->AnimClass = StaticAnimThird.Class;
 
-	//ÉãÏñ»úÊÖ±Û
+	// æ‘„åƒæœºæ‰‹è‡‚
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
 	CameraBoom->SetupAttachment(RootComponent);
-	//ÉèÖÃ¾àÀë
+	// è®¾ç½®è·ç¦»
 	CameraBoom->TargetArmLength = 300.f;
-	//ÉèÖÃÆ«ÒÆ
+	// è®¾ç½®åç§»
 	CameraBoom->TargetOffset = FVector(0.f, 0.f, 60.f);
-	//°ó¶¨ControllerµÄĞı×ª
+	// ç»‘å®šControllerçš„æ—‹è½¬
 	CameraBoom->bUsePawnControlRotation = true;
 
-	//³õÊ¼»¯µÚÈıÈË³ÆÉãÏñ»ú
+	// åˆå§‹åŒ–ç¬¬ä¸‰äººç§°æ‘„åƒæœº
 	ThirdCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("ThirdCamera"));
 	ThirdCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
-	//ÉèÖÃThirdCamera²»¸úËæ¿ØÖÆÆ÷µÄĞı×ª
+	// è®¾ç½®ThirdCameraä¸è·Ÿéšæ§åˆ¶å™¨çš„æ—‹è½¬
 	ThirdCamera->bUsePawnControlRotation = false;
 
-	//³õÊ¼»¯µÚÒ»ÈË³ÆÉãÏñ»ú
+	// åˆå§‹åŒ–ç¬¬ä¸€äººç§°æ‘„åƒæœº
 	FirstCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FirstCamera"));
 	FirstCamera->SetupAttachment((USceneComponent*)GetCapsuleComponent());
-	//ÉèÖÃ¸úËæControllerµÄĞı×ª
+	// è®¾ç½®è·ŸéšControllerçš„æ—‹è½¬
 	FirstCamera->bUsePawnControlRotation = true;
-	//ÉèÖÃÆ«ÒÆ
+	// è®¾ç½®åç§»
 	FirstCamera->AddLocalOffset(FVector(0.f, 0.f, 60.f));
 
-	//³õÊ¼»¯²ÎÊı
+	// å®ä¾‹åŒ–æ‰‹ä¸Šç‰©å“
+	HandObject = CreateDefaultSubobject<UChildActorComponent>(TEXT("HandObject"));
+
+	// åˆå§‹åŒ–å‚æ•°
 	BaseTurnRate = 45.f;
 	BaseLookUpRate = 45.f;
-	//ÉèÖÃ³õÊ¼ËÙ¶ÈÎª150.f
+	//è®¾ç½®åˆå§‹é€Ÿåº¦ä¸º150.f
 	GetCharacterMovement()->MaxWalkSpeed = 150.f;
 
-	// ³õÊ¼ÎªµÚÈıÈËÈË³Æ
+	// åˆå§‹ä¸ºç¬¬ä¸‰äººäººç§°
 	GameView = EGameViewMode::Third;
 	ChangeView(GameView);
 
-	// ³õÊ¼»¯¶¯×÷ÎªÎŞ¶¯×÷
+	// åˆå§‹åŒ–åŠ¨ä½œä¸ºæ— åŠ¨ä½œ
 	UpperType = EUpperBody::None;
-	// ÊÇ·ñÔÊĞíÇĞ»»ÊÓ½Ç
+	// æ˜¯å¦å…è®¸åˆ‡æ¢è§†è§’
 	IsAllowSwitch = true;
 
 }
@@ -105,6 +110,8 @@ void ASiAiPlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	// æŠŠæ‰‹æŒç‰©å“ç»„ä»¶ç»‘å®šåˆ°ç¬¬ä¸‰äººç§°æ¨¡å‹å³æ‰‹æ’æ§½
+	HandObject->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, FName("RHSocket"));
 }
 
 // Called every frame
@@ -146,10 +153,10 @@ void ASiAiPlayerCharacter::ChangeView(EGameViewMode::Type NewGameView)
 		MeshFirst->SetOwnerNoSee(false);
 		break;
 	case EGameViewMode::Third:
-		// Ä¬ÈÏµÚÈıÈË³Æ
+		// é»˜è®¤ç¬¬ä¸‰äººç§°
 		FirstCamera->SetActive(false);
 		ThirdCamera->SetActive(true);
-		// ²»ÏÔÊ¾µÚÒ»ÈË³ÆÄ£ĞÍ
+		// ä¸æ˜¾ç¤ºç¬¬ä¸€äººç§°æ¨¡å‹
 		GetMesh()->SetOwnerNoSee(false);
 		MeshFirst->SetOwnerNoSee(true);
 		break;

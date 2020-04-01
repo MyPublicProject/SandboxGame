@@ -26,7 +26,9 @@ public:
 protected:
 
 	//角色指针
-	class ASiAiPlayerCharacter* SPCharacter;
+	class ASiAiPlayerCharacter *SPCharacter;
+
+	class ASiAiPlayerState *SPState;
 
 protected:
 
@@ -42,6 +44,10 @@ private:
 	void LeftEventStop();
 	void RightEventStart();
 	void RightEventStop();
+
+	// 鼠标滚轮事件
+	void ScrollUpEvent();
+	void ScrollDownEvent();
 
 private:
 

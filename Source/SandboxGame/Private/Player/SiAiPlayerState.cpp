@@ -1,8 +1,9 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+ï»¿// Fill out your copyright notice in the Description page of Project Settings.
 
 #include "SiAiPlayerState.h"
 #include "AiSiTypes.h"
 #include "STextBlock.h"
+#include "SlAiDataHandle.h"
 
 
 
@@ -19,10 +20,10 @@ void ASiAiPlayerState::RegisterShortcutContainer(TArray<TSharedPtr<ShortcutConta
 		ShortcutContainerList.Add(*It);
 	}
 	ShortcutInfoTextAttr.BindUObject(this, &ASiAiPlayerState::GetShortcutInfoText);
-	// °ó¶¨¿ì½ÝÀ¸ÐÅÏ¢TextBolck
+	// ç»‘å®šå¿«æ·æ ä¿¡æ¯TextBolck
 	ShortcutInfoTextBlock->SetText(ShortcutInfoTextAttr);
 
-	////ÁÙÊ±²âÊÔ´úÂë,ÉèÖÃ¿ì½ÝÀ¸µÄÎïÆ·
+	////ä¸´æ—¶æµ‹è¯•ä»£ç ,è®¾ç½®å¿«æ·æ çš„ç‰©å“
 	ShortcutContainerList[1]->SetObject(1)->SetObjectNum(5);
 	ShortcutContainerList[2]->SetObject(2)->SetObjectNum(15);
 	ShortcutContainerList[3]->SetObject(3)->SetObjectNum(1);
@@ -32,7 +33,46 @@ void ASiAiPlayerState::RegisterShortcutContainer(TArray<TSharedPtr<ShortcutConta
 	ShortcutContainerList[7]->SetObject(7)->SetObjectNum(64);
 }
 
+void ASiAiPlayerState::ChooseShortcut(bool IsPre)
+{
+	// ä¸‹ä¸€ä¸ªè¢«é€‰ä¸­çš„ä¸‹æ ‡
+	int NextIndex = 0;
+	if (IsPre)
+	{
+		NextIndex = CurrentShortcutIndex - 1 < 0 ? 8 : CurrentShortcutIndex - 1;
+	}
+	else
+	{
+		NextIndex = CurrentShortcutIndex + 1 > 8 ? 0 : CurrentShortcutIndex + 1;
+	}
+
+	ShortcutContainerList[CurrentShortcutIndex]->SetChoosed(false);
+	ShortcutContainerList[NextIndex]->SetChoosed(true);
+
+	// æ›´æ–°å½“å‰é€‰æ‹©çš„å®¹å™¨
+	CurrentShortcutIndex = NextIndex;
+}
+
+int ASiAiPlayerState::GetCurrentHandObjectIndex() const
+{
+	if (ShortcutContainerList.Num() == 0) return 0;
+	return ShortcutContainerList[CurrentShortcutIndex]->ObjectIndex;
+}
+
 FText ASiAiPlayerState::GetShortcutInfoText() const
 {
-	return FText::FromString("666");
+	TSharedPtr<ObjectAttribute> ObjectAttr;
+	ObjectAttr = *SlAiDataHandle::Get()->ObjectAttrMap.Find(GetCurrentHandObjectIndex());
+	switch (SlAiDataHandle::Get()->CurrentCulture)
+	{
+	case ECultureTeam::EN:
+		return ObjectAttr->EN;
+		break;
+	case ECultureTeam::ZH:
+		return ObjectAttr->ZH;
+		break;
+	default:
+		break;
+	}
+	return ObjectAttr->ZH;
 }

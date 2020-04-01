@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+ï»¿// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
@@ -11,6 +11,7 @@ class USpringArmComponent;
 class UCameraComponent;
 class USkeletalMeshComponent;
 class UCharacterMovementComponent;
+class UChildActorComponent;
 
 UCLASS()
 class SANDBOXGAME_API ASiAiPlayerCharacter : public ACharacter
@@ -27,7 +28,7 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	// ĞŞ¸ÄÊÓ½Ç
+	// ä¿®æ”¹è§†è§’
 	void ChangeView(EGameViewMode::Type NewGameView);
 
 public:
@@ -39,13 +40,13 @@ public:
 	UPROPERTY(VisibleDefaultsOnly, Category = "SiAi")
 		UCameraComponent *FirstCamera;
 	
-	// µ±Ç°µÄÊÓ½ÇÄ£ĞÍ
+	// å½“å‰çš„è§†è§’æ¨¡å‹
 	EGameViewMode::Type GameView;
 
-	// ÉÏ°ëÉí¶¯»­×´Ì¬
+	// ä¸ŠåŠèº«åŠ¨ç”»çŠ¶æ€
 	EUpperBody::Type UpperType;
 
-	// ÊÇ·ñÔÊĞíÇĞ»»ÊÓ½Ç
+	// æ˜¯å¦å…è®¸åˆ‡æ¢è§†è§’
 	bool IsAllowSwitch;
 
 protected:
@@ -74,13 +75,16 @@ private:
 
 private:
 
-	// µÚÒ»ÈË³ÆÄ£ĞÍ
+	// ç¬¬ä¸€äººç§°æ¨¡å‹
 	UPROPERTY(VisibleDefaultsOnly, Category = "SiAi")
 		USkeletalMeshComponent *MeshFirst;
 
-	// Ğı×ªËÙÂÊ
+	// æ‰‹ä¸Šç‰©å“
+	UPROPERTY(VisibleDefaultsOnly, Category = "SiAi")
+		UChildActorComponent *HandObject;
+
+	// æ—‹è½¬é€Ÿç‡
 	float BaseLookUpRate;
 	float BaseTurnRate;
-
 	
 };

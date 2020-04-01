@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+ï»¿// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
@@ -20,20 +20,31 @@ public:
 
 	ASiAiPlayerState();
 
-	// Ìá¹©¸ø ShortcutContainer µÄÌí¼Ó¿ì½İÀ¸ÈİÆ÷Î¯ÍĞ
+	// æä¾›ç»™ ShortcutContainer çš„æ·»åŠ å¿«æ·æ å®¹å™¨å§”æ‰˜
 	void RegisterShortcutContainer(TArray<TSharedPtr<ShortcutContainer>>* ContainerList, TSharedPtr<STextBlock> ShortcutInfoTextBlock);
+
+	//åˆ‡æ¢å¿«æ·æ 
+	void ChooseShortcut(bool IsPre);
+
+	//è·å–é€‰ä¸­å®¹å™¨å†…çš„ç‰©å“çš„Index
+	int GetCurrentHandObjectIndex() const;
+
+public:
+
+	//å½“å‰è¢«é€‰ä¸­çš„å¿«æ·æ åºå·
+	int CurrentShortcutIndex;
 	
 private:
 
-	// »ñÈ¡¿ì½İÀ¸ÎïÆ·ĞÅÏ¢
+	// è·å–å¿«æ·æ ç‰©å“ä¿¡æ¯
 	FText GetShortcutInfoText() const;
 
 private:
 
-	//¿ì½İÀ¸ĞòÁĞ
+	//å¿«æ·æ åºåˆ—
 	TArray<TSharedPtr<ShortcutContainer>> ShortcutContainerList;
 
-	// ¿ì½İÀ¸ĞÅÏ¢²ÎÊı
+	// å¿«æ·æ ä¿¡æ¯å‚æ•°
 	TAttribute<FText> ShortcutInfoTextAttr;
 	
 };

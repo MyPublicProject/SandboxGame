@@ -2,6 +2,7 @@
 
 #include "SiAiPlayerController.h"
 #include "Player/SiAiPlayerCharacter.h"
+#include "Player/SiAiPlayerState.h"
 
 
 
@@ -25,14 +26,18 @@ void ASiAiPlayerController::SetupInputComponent()
 	// 绑定鼠标事件
 	InputComponent->BindAction("LeftEvent", IE_Pressed, this, &ASiAiPlayerController::LeftEventStart);
 	InputComponent->BindAction("LeftEvent", IE_Released, this, &ASiAiPlayerController::LeftEventStop);
-	InputComponent->BindAction("LeftEvent", IE_Pressed, this, &ASiAiPlayerController::RightEventStart);
-	InputComponent->BindAction("LeftEvent", IE_Released, this, &ASiAiPlayerController::RightEventStop);
+	InputComponent->BindAction("RightEvent", IE_Pressed, this, &ASiAiPlayerController::RightEventStart);
+	InputComponent->BindAction("RightEvent", IE_Released, this, &ASiAiPlayerController::RightEventStop);
+	// 绑定鼠标滚轮事件
+	InputComponent->BindAction("ScrollUp", IE_Pressed, this, &ASiAiPlayerController::ScrollUpEvent);
+	InputComponent->BindAction("ScrollDown", IE_Pressed, this, &ASiAiPlayerController::ScrollDownEvent);
 }
 
 void ASiAiPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 	if (!SPCharacter) SPCharacter = Cast<ASiAiPlayerCharacter>(GetCharacter());
+	if (!SPState) SPState = Cast<ASiAiPlayerState>(PlayerState);
 	// 设置鼠标不显示
 	bShowMouseCursor = false;
 	// 设置输入模式
@@ -42,6 +47,9 @@ void ASiAiPlayerController::BeginPlay()
 
 	LeftUpperType = EUpperBody::PickUp;
 	RightUpperType = EUpperBody::PickUp;
+
+	IsRightButtonDown = false;
+	IsLeftButtonDown = false;
 }
 
 void ASiAiPlayerController::ChangeView()
@@ -84,4 +92,28 @@ void ASiAiPlayerController::RightEventStop()
 {
 	IsRightButtonDown = false;
 	SPCharacter->UpperType = EUpperBody::None;
+}
+
+void ASiAiPlayerController::ScrollUpEvent()
+{
+	// 如果不允许切换直接返回
+	if (!SPCharacter->IsAllowSwitch) return;
+
+	// 如果鼠标有在按键不允许切换
+	if (IsLeftButtonDown || IsRightButtonDown) return;
+
+	// 告诉快捷栏切换快捷容器
+	SPState->ChooseShortcut(true);
+}
+
+void ASiAiPlayerController::ScrollDownEvent()
+{
+	// 如果不允许切换直接返回
+	if (!SPCharacter->IsAllowSwitch) return;
+
+	// 如果鼠标有在按键不允许切换
+	if (IsLeftButtonDown || IsRightButtonDown) return;
+
+	// 告诉快捷栏切换快捷容器
+	SPState->ChooseShortcut(false);
 }
