@@ -18,6 +18,12 @@ void USiAiPlayerAnim::NativeUpdateAnimation(float DeltaSeconds)
 	UpdateMontage();
 }
 
+void USiAiPlayerAnim::ChangeDetection(bool IsOpen)
+{
+	if (!SPCharacter) return;
+	SPCharacter->ChangeHandObjectDetect(IsOpen);
+}
+
 void USiAiPlayerAnim::InitSPCharacter()
 {
 	if (!SPCharacter)

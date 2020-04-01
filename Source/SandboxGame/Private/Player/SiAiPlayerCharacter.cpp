@@ -182,6 +182,12 @@ void ASiAiPlayerCharacter::ChangeHandObject(int32 Index)
 	HandObject->SetChildActorClass(ASiAiHandObject::SpawnHandObject(Index));
 }
 
+void ASiAiPlayerCharacter::ChangeHandObjectDetect(bool IsOpen)
+{
+	ASiAiHandObject *HandObjectClass = Cast<ASiAiHandObject>(HandObject->GetChildActor());
+	if (HandObjectClass) HandObjectClass->ChangeOverlayDetect(IsOpen);
+}
+
 void ASiAiPlayerCharacter::MoveForward(float Value)
 {
 	if (Value != 0.f && Controller) {

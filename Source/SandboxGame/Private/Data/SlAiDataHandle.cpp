@@ -76,6 +76,8 @@ void SlAiDataHandle::InitializeGameData()
 {
 	// 初始化物品属性
 	InitObjectAtte();
+	// 初始化资源属性图
+	InitResourceAttrMap();
 }
 
 TSharedRef<SlAiDataHandle> SlAiDataHandle::Create()
@@ -96,7 +98,7 @@ SlAiDataHandle::SlAiDataHandle()
 template<typename TEnum>
 FString SlAiDataHandle::GetEnumValueAsString(const FString& Name, TEnum Value)
 {
-	const UEnum* EnumPtr = FindObject<UEnum>(ANY_PACKAGE, *Name, true);
+	const UEnum* EnumPtr = FindObject<UEnum>((UObject*)ANY_PACKAGE, *Name, true);
 	if (!EnumPtr)
 	{
 		return FString("InValid");
@@ -107,7 +109,7 @@ FString SlAiDataHandle::GetEnumValueAsString(const FString& Name, TEnum Value)
 template<typename TEnum>
 TEnum SlAiDataHandle::GetEnumValueFromString(const FString& Name, FString Value)
 {
-	const UEnum* EnumPtr = FindObject<UEnum>(ANY_PACKAGE, *Name, true);
+	const UEnum* EnumPtr = FindObject<UEnum>((UObject*)ANY_PACKAGE, *Name, true);
 	if (!EnumPtr)
 	{
 		return TEnum(0);
@@ -164,4 +166,9 @@ void SlAiDataHandle::InitObjectAtte()
 	ObjectBrushList.Add(&GameStyle->ObjectBrush_5);
 	ObjectBrushList.Add(&GameStyle->ObjectBrush_6);
 	ObjectBrushList.Add(&GameStyle->ObjectBrush_7);
+}
+
+void SlAiDataHandle::InitResourceAttrMap()
+{
+	SiAiSingleton<SiAiJsonHandle>::Get()->ResourceAttrJsonRead(ResourceAttrMap);
 }

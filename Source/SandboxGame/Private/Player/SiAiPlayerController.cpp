@@ -163,5 +163,4 @@ void ASiAiPlayerController::ChangePreUpperType(EUpperBody::Type RightType = EUpp
 		RightUpperType = RightType;
 		break;
 	}
-	SiAiHelper::Debug("LeftUpperType", 0.f);
 }

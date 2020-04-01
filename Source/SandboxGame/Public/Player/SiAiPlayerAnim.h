@@ -22,6 +22,10 @@ public:
 
 	virtual void NativeUpdateAnimation(float DeltaSeconds) override;
 
+	// 开启和关闭手上物品的交互检测
+	UFUNCTION(BlueprintCallable, Category = "SiAi")
+		void ChangeDetection(bool IsOpen);
+
 protected:
 
 	// 获取角色指针

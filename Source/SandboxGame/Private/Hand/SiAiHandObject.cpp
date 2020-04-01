@@ -40,7 +40,7 @@ ASiAiHandObject::ASiAiHandObject()
 	AffectCollision->SetCollisionProfileName(FName("ToolProfile"));
 
 	// 初始时关闭Overlay检测
-	AffectCollision->bGenerateOverlapEvents = true;
+	AffectCollision->bGenerateOverlapEvents = false;
 
 	// 绑定检测方法到碰撞体
 	FScriptDelegate OverlayBegin;
@@ -48,7 +48,7 @@ ASiAiHandObject::ASiAiHandObject()
 	AffectCollision->OnComponentBeginOverlap.Add(OverlayBegin);
 
 	FScriptDelegate OverlayEnd;
-	OverlayEnd.BindUFunction(this, "OverlayEnd");
+	OverlayEnd.BindUFunction(this, "OnOverlayEnd");
 	AffectCollision->OnComponentEndOverlap.Add(OverlayEnd);
 
 }
@@ -62,12 +62,12 @@ void ASiAiHandObject::BeginPlay()
 
 void ASiAiHandObject::OnOverlayBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult)
 {
-	SiAiHelper::Debug("OnOverlayBegin", 30.f);
+	SiAiHelper::Debug(FString("OnOverlayBegin"), 30.f);
 }
 
 void ASiAiHandObject::OnOverlayEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-	SiAiHelper::Debug("OnOverlayEnd", 30.f);
+	SiAiHelper::Debug(FString("OnOverlayEnd"), 30.f);
 }
 
 // Called every frame
@@ -77,7 +77,7 @@ void ASiAiHandObject::Tick(float DeltaTime)
 
 }
 
-TSubclassOf<AActor> ASiAiHandObject::SpawnHandObject(int32 ObjectID)
+TSubclassOf<AActor> ASiAiHandObject::SpawnHandObject(int ObjectID)
 {
 	switch (ObjectID)
 	{
@@ -100,5 +100,10 @@ TSubclassOf<AActor> ASiAiHandObject::SpawnHandObject(int32 ObjectID)
 	}
 
 	return ASiAiHandNone::StaticClass();
+}
+
+void ASiAiHandObject::ChangeOverlayDetect(bool IsOpen)
+{
+	AffectCollision->bGenerateOverlapEvents = IsOpen;
 }
 
