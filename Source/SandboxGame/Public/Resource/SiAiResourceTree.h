@@ -14,7 +14,8 @@ class SANDBOXGAME_API ASiAiResourceTree : public ASiAiResourceObject
 {
 	GENERATED_BODY()
 	
+public:
 	
-	
+	ASiAiResourceTree();
 	
 };

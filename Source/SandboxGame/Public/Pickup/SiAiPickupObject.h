@@ -4,25 +4,27 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "SiAiResourceObject.generated.h"
+#include "SiAiPickupObject.generated.h"
 
 UCLASS()
-class SANDBOXGAME_API ASiAiResourceObject : public AActor
+class SANDBOXGAME_API ASiAiPickupObject : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 
 	// Sets default values for this actor's properties
-	ASiAiResourceObject();
+	ASiAiPickupObject();
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	// 获取物品信息
+	FText GetInfoText() const;
+
 public:
 
-	// 资源ID
-	int ResourceIndex;
+	int ObjectIndex;
 
 protected:
 
@@ -36,8 +38,5 @@ protected:
 
 	// 静态模型
 	UStaticMeshComponent *BaseMesh;
-
-	// 保存资源地址数组
-	TArray<FString> ResourcePath;
 	
 };

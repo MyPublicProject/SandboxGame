@@ -3,19 +3,19 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Resource/SiAiResourceObject.h"
-#include "SiAiResourceRock.generated.h"
+#include "Pickup/SiAiPickupObject.h"
+#include "SiAiPickupWood.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class SANDBOXGAME_API ASiAiResourceRock : public ASiAiResourceObject
+class SANDBOXGAME_API ASiAiPickupWood : public ASiAiPickupObject
 {
 	GENERATED_BODY()
 	
 public:
-
-	ASiAiResourceRock();	
+	
+	ASiAiPickupWood();
 	
 };
