@@ -1,15 +1,16 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+ï»¿// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
 #include "CoreMinimal.h"
 #include "Widgets/SCompoundWidget.h"
 #include "AiSiTypes.h"
+#include "SCheckBox.h"
 
 
-// ĞŞ¸ÄÖĞÓ¢ÎÄÎ¯ÍĞ
+// ä¿®æ”¹ä¸­è‹±æ–‡å§”æ‰˜
 DECLARE_DELEGATE_OneParam(FChangeCulture, const ECultureTeam)
-// ĞŞ¸ÄÒôÁ¿Î¯ÍĞ
+// ä¿®æ”¹éŸ³é‡å§”æ‰˜
 DECLARE_DELEGATE_TwoParams(FChangeVolume, const float, const float)
 
 class SSlider;
@@ -29,34 +30,34 @@ public:
 	void Construct(const FArguments& InArgs);
 
 private:
-	// Í³Ò»ÉèÖÃÑùÊ½
+	// ç»Ÿä¸€è®¾ç½®æ ·å¼
 	void StyleInitialize();
-	// ÖĞÎÄ CheckBox ÊÂ¼ş
+	// ä¸­æ–‡ CheckBox äº‹ä»¶
 	void ZhCheckBoxStateChanged(ECheckBoxState NewState);
-	// Ó¢ÎÄ CheckBox ÊÂ¼ş
+	// è‹±æ–‡ CheckBox äº‹ä»¶
 	void EnCheckBoxStateChanged(ECheckBoxState NewState);
-	// ÒôÁ¿±ä»¯ÊÂ¼ş
+	// éŸ³é‡å˜åŒ–äº‹ä»¶
 	void MusicSliderChanged(float Value);
-	// ÒôĞ§±ä»¯ÊÂ¼ş
+	// éŸ³æ•ˆå˜åŒ–äº‹ä»¶
 	void SoundSliderChanged(float Value);
 
 private:
 
-	// »ñÈ¡ MenuStyle
+	// è·å– MenuStyle
 	const struct FSiAiMenuStyle *MenuStyle;
 
-	// »ñÈ¡ CheckBox Ö¸Õë
+	// è·å– CheckBox æŒ‡é’ˆ
 	TSharedPtr<SCheckBox> EnCheckBox;
 	TSharedPtr<SCheckBox> ZhCheckBox;
 	
-	// Á½¸ö½ø¶ÈÌõ
+	// ä¸¤ä¸ªè¿›åº¦æ¡
 	TSharedPtr<SSlider> MuSlider;
 	TSharedPtr<SSlider> SoSlider;
-	// ½ø¶ÈÌõ°Ù·Ö±È
+	// è¿›åº¦æ¡ç™¾åˆ†æ¯”
 	TSharedPtr<STextBlock> MuTextBlock;
 	TSharedPtr<STextBlock> SoTextBlock;
 
-	// Î¯ÍĞ±äÁ¿
+	// å§”æ‰˜å˜é‡
 	FChangeCulture ChangeCulture;
 	FChangeVolume ChangeVolume;
 };

@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+ï»¿// Fill out your copyright notice in the Description page of Project Settings.
 
 #include "SSiAiGameOptionWidget.h"
 #include "SlateOptMacros.h"
@@ -18,10 +18,10 @@
 BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
 void SSiAiGameOptionWidget::Construct(const FArguments& InArgs)
 {
-	// »ñÈ¡±à¼­Æ÷µÄ MenuStyle
+	// è·å–ç¼–è¾‘å™¨çš„ MenuStyle
 	MenuStyle = &SiAiStyle::Get().GetWidgetStyle<FSiAiMenuStyle>("BPSiAiMenuStyle");
 
-	// »ñÈ¡Î¯ÍĞ
+	// è·å–å§”æ‰˜
 	ChangeCulture = InArgs._ChangeCulture;
 	ChangeVolume = InArgs._ChangeVolume;
 
@@ -46,7 +46,7 @@ void SSiAiGameOptionWidget::Construct(const FArguments& InArgs)
 			.Padding(50.f)
 			[
 				SNew(SVerticalBox)
-				// µÚÒ»ĞĞ
+				// ç¬¬ä¸€è¡Œ
 				+ SVerticalBox::Slot()
 				.HAlign(HAlign_Fill)
 				.VAlign(VAlign_Fill)
@@ -82,7 +82,7 @@ void SSiAiGameOptionWidget::Construct(const FArguments& InArgs)
 						]
 					]
 				]
-				// µÚ¶şĞĞ
+				// ç¬¬äºŒè¡Œ
 				+ SVerticalBox::Slot()
 				.HAlign(HAlign_Fill)
 				.VAlign(VAlign_Fill)
@@ -132,7 +132,7 @@ void SSiAiGameOptionWidget::Construct(const FArguments& InArgs)
 						.ColorAndOpacity(MenuStyle->FontColor_Black)
 					]
 				]
-				// µÚÈıĞĞ
+				// ç¬¬ä¸‰è¡Œ
 				+ SVerticalBox::Slot()
 				.HAlign(HAlign_Fill)
 				.VAlign(VAlign_Fill)
@@ -191,7 +191,7 @@ END_SLATE_FUNCTION_BUILD_OPTIMIZATION
 
 void SSiAiGameOptionWidget::StyleInitialize()
 {
-	// ÉèÖÃ ZhCheckBox ÑùÊ½
+	// è®¾ç½® ZhCheckBox æ ·å¼
 	ZhCheckBox->SetUncheckedImage(&MenuStyle->UnCheckedBoxBrush);
 	ZhCheckBox->SetUncheckedHoveredImage(&MenuStyle->UnCheckedBoxBrush);
 	ZhCheckBox->SetUncheckedPressedImage(&MenuStyle->UnCheckedBoxBrush);
@@ -199,7 +199,7 @@ void SSiAiGameOptionWidget::StyleInitialize()
 	ZhCheckBox->SetCheckedHoveredImage(&MenuStyle->CheckedBoxBrush);
 	ZhCheckBox->SetCheckedPressedImage(&MenuStyle->CheckedBoxBrush);
 
-	// ÉèÖÃ EnCheckBox ÑùÊ½
+	// è®¾ç½® EnCheckBox æ ·å¼
 	EnCheckBox->SetUncheckedImage(&MenuStyle->UnCheckedBoxBrush);
 	EnCheckBox->SetUncheckedHoveredImage(&MenuStyle->UnCheckedBoxBrush);
 	EnCheckBox->SetUncheckedPressedImage(&MenuStyle->UnCheckedBoxBrush);
@@ -219,39 +219,39 @@ void SSiAiGameOptionWidget::StyleInitialize()
 		break;
 	}
 
-	// Ä¬ÈÏ»¬¶¯Ìõ
+	// é»˜è®¤æ»‘åŠ¨æ¡
 	MuSlider->SetValue(SlAiDataHandle::Get()->MusicVolume);
 	SoSlider->SetValue(SlAiDataHandle::Get()->SoundVolume);
-	// °Ù·Ö±È // ÎÒ¾õµÃ²»ĞèÒªÕâÁ½ĞĞ´úÂë
+	// ç™¾åˆ†æ¯” // æˆ‘è§‰å¾—ä¸éœ€è¦è¿™ä¸¤è¡Œä»£ç 
 	MuTextBlock->SetText(FText::FromString(FString::FromInt(FMath::RoundToInt(SlAiDataHandle::Get()->MusicVolume * 100)) + FString("%")));
 	SoTextBlock->SetText(FText::FromString(FString::FromInt(FMath::RoundToInt(SlAiDataHandle::Get()->SoundVolume * 100)) + FString("%")));
 }
 
 void SSiAiGameOptionWidget::ZhCheckBoxStateChanged(ECheckBoxState NewState)
 {
-	// ÉèÖÃ±»Ñ¡ÖĞµÄ¿ò
+	// è®¾ç½®è¢«é€‰ä¸­çš„æ¡†
 	EnCheckBox->SetIsChecked(ECheckBoxState::Unchecked);
 	ZhCheckBox->SetIsChecked(ECheckBoxState::Checked);
-	// ¸æËßÊı¾İ¿ØÖÆÀà×ª»»ÎªÖĞÎÄ
+	// å‘Šè¯‰æ•°æ®æ§åˆ¶ç±»è½¬æ¢ä¸ºä¸­æ–‡
 	// SlAiDataHandle::Get()->ChangeLocalizationCulture(ECultureTeam::ZH);
 	ChangeCulture.ExecuteIfBound(ECultureTeam::ZH);
 }
 
 void SSiAiGameOptionWidget::EnCheckBoxStateChanged(ECheckBoxState NewState)
 {
-	// ÉèÖÃ±»Ñ¡ÖĞµÄ¿ò
+	// è®¾ç½®è¢«é€‰ä¸­çš„æ¡†
 	EnCheckBox->SetIsChecked(ECheckBoxState::Checked);
 	ZhCheckBox->SetIsChecked(ECheckBoxState::Unchecked);
-	// ¸æËßÊı¾İ¿ØÖÆÀà×ª»»ÎªÖĞÎÄ
+	// å‘Šè¯‰æ•°æ®æ§åˆ¶ç±»è½¬æ¢ä¸ºä¸­æ–‡
 	// SlAiDataHandle::Get()->ChangeLocalizationCulture(ECultureTeam::EN);
 	ChangeCulture.ExecuteIfBound(ECultureTeam::EN);
 }
 
 void SSiAiGameOptionWidget::MusicSliderChanged(float Value)
 {
-	// ÏÔÊ¾°Ù·Ö±È
+	// æ˜¾ç¤ºç™¾åˆ†æ¯”
 	MuTextBlock->SetText(FText::FromString(FString::FromInt(FMath::RoundToInt(Value * 100)) + FString("%")));
-	// ĞŞ¸ÄÒôÁ¿
+	// ä¿®æ”¹éŸ³é‡
 	// SlAiDataHandle::Get()->ResetMenuVolume(Value, -1.f);
 	ChangeVolume.ExecuteIfBound(Value, -1.f);
 }

@@ -54,6 +54,46 @@ struct SANDBOXGAME_API FSiAiGameStyle : public FSlateWidgetStyle
 		FSlateBrush ObjectBrush_6;
 	UPROPERTY(EditAnywhere, Category = Package)
 		FSlateBrush ObjectBrush_7;
+
+	//射线检测信息面板背景
+	UPROPERTY(EditAnywhere, Category = Info)
+		FSlateBrush RayInfoBrush;
+
+	//准星材质
+	UPROPERTY(EditAnywhere, Category = Info)
+		FSlateBrush PointerBrush;
+
+	//小地图背景图片
+	UPROPERTY(EditAnywhere, Category = MiniMap)
+		FSlateBrush MiniMapBGBrush;
+
+	//主角图标
+	UPROPERTY(EditAnywhere, Category = MiniMap)
+		FSlateBrush PawnPointBrush;
+
+	//玩家属性背景图
+	UPROPERTY(EditAnywhere, Category = PlayerState)
+		FSlateBrush PlayerStateBGBrush;
+
+	//玩家头像背景图片
+	UPROPERTY(EditAnywhere, Category = PlayerState)
+		FSlateBrush PlayerHeadBGBrush;
+
+	//血条Brush
+	UPROPERTY(EditAnywhere, Category = PlayerState)
+		FSlateBrush HPBrush;
+
+	//饥饿Brush
+	UPROPERTY(EditAnywhere, Category = PlayerState)
+		FSlateBrush HungerBrush;
+
+	//玩家头像
+	UPROPERTY(EditAnywhere, Category = PlayerState)
+		FSlateBrush PlayerHeadBrush;
+
+	//聊天室背景图片
+	UPROPERTY(EditAnywhere, Category = ChatRoom)
+		FSlateBrush ChatRoomBGBrush;
 	
 	// 60号字体
 	UPROPERTY(EditAnywhere, Category = Common)
