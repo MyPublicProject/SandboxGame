@@ -1,9 +1,10 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+ï»¿// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
 #include "CoreMinimal.h"
 #include "Widgets/SCompoundWidget.h"
+#include "DeclarativeSyntaxSupport.h"
 
 /**
  * 
@@ -18,21 +19,27 @@ public:
 	/** Constructs this widget with InArgs */
 	void Construct(const FArguments& InArgs);
 
-	// °ó¶¨µ½ UIScalerµÄ·½·¨
+	// ç»‘å®šåˆ° UIScalerçš„æ–¹æ³•
 	float GetUIScaler() const;
 
 public:
 
-	// ¿ì½İÀ¸
+	// å¿«æ·æ 
 	TSharedPtr<class SSiAiShortcutWidget> ShortcutWidget;
+
+	// å°„çº¿ä¿¡æ¯æ¡†
+	TSharedPtr<class SSiAiRayInfoWidget> RayInfoWidget;
+
+	// å‡†æ˜Ÿ
+	TSharedPtr<class SSiAiPointerWidget> PointerWidget;
 
 private:
 
-	// »ñÈ¡ÆÁÄ»´óĞ¡
+	// è·å–å±å¹•å¤§å°
 	FVector2D GetViewportSize() const;
 
 private:
 
-	// DPI Ëõ·Å
+	// DPI ç¼©æ”¾
 	TAttribute<float> UIScaler;
 };

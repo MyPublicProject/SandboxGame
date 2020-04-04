@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+ï»¿// Fill out your copyright notice in the Description page of Project Settings.
 
 #include "SiAiPlayerController.h"
 #include "Player/SiAiPlayerCharacter.h"
@@ -10,36 +10,42 @@
 
 ASiAiPlayerController::ASiAiPlayerController()
 {
-	// ÔÊĞíTick
+	// å…è®¸Tick
 	PrimaryActorTick.bCanEverTick = true;
 }
 
 void ASiAiPlayerController::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
+
+	// ä¸´æ—¶ä»£ç 
 	ChangePreUpperType(EUpperBody::None);
+
+	static float TestPointer = 1.f;
+	TestPointer = FMath::FInterpTo(TestPointer, 0, DeltaSeconds, 1.f);
+	UpdatePointer.ExecuteIfBound(true, FMath::Clamp(TestPointer, 0.f, 1.f));
 }
 
 void ASiAiPlayerController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
-	// °ó¶¨ÊÓ½ÇÇĞ»»
+	// ç»‘å®šè§†è§’åˆ‡æ¢
 	InputComponent->BindAction("ChangeView", IE_Pressed, this, &ASiAiPlayerController::ChangeView);
-	// °ó¶¨Êó±êÊÂ¼ş
+	// ç»‘å®šé¼ æ ‡äº‹ä»¶
 	InputComponent->BindAction("LeftEvent", IE_Pressed, this, &ASiAiPlayerController::LeftEventStart);
 	InputComponent->BindAction("LeftEvent", IE_Released, this, &ASiAiPlayerController::LeftEventStop);
 	InputComponent->BindAction("RightEvent", IE_Pressed, this, &ASiAiPlayerController::RightEventStart);
 	InputComponent->BindAction("RightEvent", IE_Released, this, &ASiAiPlayerController::RightEventStop);
-	// °ó¶¨Êó±ê¹öÂÖÊÂ¼ş
+	// ç»‘å®šé¼ æ ‡æ»šè½®äº‹ä»¶
 	InputComponent->BindAction("ScrollUp", IE_Pressed, this, &ASiAiPlayerController::ScrollUpEvent);
 	InputComponent->BindAction("ScrollDown", IE_Pressed, this, &ASiAiPlayerController::ScrollDownEvent);
-	// ÍË³öÓÎÏ·
+	// é€€å‡ºæ¸¸æˆ
 	InputComponent->BindAction("QuitGame", IE_Pressed, this, &ASiAiPlayerController::QuitGame);
 }
 
 void ASiAiPlayerController::ChangeHandObject()
 {
-	// ÇĞ»»ÊÖ³ÖÎïÆ·
+	// åˆ‡æ¢æ‰‹æŒç‰©å“
 	SPCharacter->ChangeHandObject(SPState->GetCurrentHandObjectIndex());
 }
 
@@ -48,9 +54,9 @@ void ASiAiPlayerController::BeginPlay()
 	Super::BeginPlay();
 	if (!SPCharacter) SPCharacter = Cast<ASiAiPlayerCharacter>(GetCharacter());
 	if (!SPState) SPState = Cast<ASiAiPlayerState>(PlayerState);
-	// ÉèÖÃÊó±ê²»ÏÔÊ¾
+	// è®¾ç½®é¼ æ ‡ä¸æ˜¾ç¤º
 	bShowMouseCursor = false;
-	// ÉèÖÃÊäÈëÄ£Ê½
+	// è®¾ç½®è¾“å…¥æ¨¡å¼
 	FInputModeGameOnly InputMode;
 	InputMode.SetConsumeCaptureMouseDown(true);
 	SetInputMode(InputMode);
@@ -64,7 +70,7 @@ void ASiAiPlayerController::BeginPlay()
 
 void ASiAiPlayerController::ChangeView()
 {
-	//Èç¹û²»ÔÊĞíÇĞ»»ÊÓ½Ç,Ö±½Ó·µ»Ø
+	//å¦‚æœä¸å…è®¸åˆ‡æ¢è§†è§’,ç›´æ¥è¿”å›
 	if (!SPCharacter->IsAllowSwitch) return;
 
 	switch (SPCharacter->GameView)
@@ -106,43 +112,43 @@ void ASiAiPlayerController::RightEventStop()
 
 void ASiAiPlayerController::ScrollUpEvent()
 {
-	// Èç¹û²»ÔÊĞíÇĞ»»Ö±½Ó·µ»Ø
+	// å¦‚æœä¸å…è®¸åˆ‡æ¢ç›´æ¥è¿”å›
 	if (!SPCharacter->IsAllowSwitch) return;
 
-	// Èç¹ûÊó±êÓĞÔÚ°´¼ü²»ÔÊĞíÇĞ»»
+	// å¦‚æœé¼ æ ‡æœ‰åœ¨æŒ‰é”®ä¸å…è®¸åˆ‡æ¢
 	if (IsLeftButtonDown || IsRightButtonDown) return;
 
-	// ¸æËß¿ì½İÀ¸ÇĞ»»¿ì½İÈİÆ÷
+	// å‘Šè¯‰å¿«æ·æ åˆ‡æ¢å¿«æ·å®¹å™¨
 	SPState->ChooseShortcut(true);
 
-	//¸ü¸ÄCharacterµÄÊÖ³ÖÎïÆ·
+	//æ›´æ”¹Characterçš„æ‰‹æŒç‰©å“
 	ChangeHandObject();
 }
 
 void ASiAiPlayerController::ScrollDownEvent()
 {
-	// Èç¹û²»ÔÊĞíÇĞ»»Ö±½Ó·µ»Ø
+	// å¦‚æœä¸å…è®¸åˆ‡æ¢ç›´æ¥è¿”å›
 	if (!SPCharacter->IsAllowSwitch) return;
 
-	// Èç¹ûÊó±êÓĞÔÚ°´¼ü²»ÔÊĞíÇĞ»»
+	// å¦‚æœé¼ æ ‡æœ‰åœ¨æŒ‰é”®ä¸å…è®¸åˆ‡æ¢
 	if (IsLeftButtonDown || IsRightButtonDown) return;
 
-	// ¸æËß¿ì½İÀ¸ÇĞ»»¿ì½İÈİÆ÷
+	// å‘Šè¯‰å¿«æ·æ åˆ‡æ¢å¿«æ·å®¹å™¨
 	SPState->ChooseShortcut(false);
 
-	//¸ü¸ÄCharacterµÄÊÖ³ÖÎïÆ·
+	//æ›´æ”¹Characterçš„æ‰‹æŒç‰©å“
 	ChangeHandObject();
 }
 
 void ASiAiPlayerController::QuitGame()
 {
-	// ¿ØÖÆÌ¨
+	// æ§åˆ¶å°
 	Cast<ASiAiMenuController>(UGameplayStatics::GetPlayerController(GWorld, 0))->ConsoleCommand("quit");
 }
 
 void ASiAiPlayerController::ChangePreUpperType(EUpperBody::Type RightType = EUpperBody::None)
 {
-	//¸ù¾İµ±Ç°ÊÖ³ÖÎïÆ·µÄÀàĞÍÀ´ĞŞ¸ÄÔ¤¶¯×÷
+	//æ ¹æ®å½“å‰æ‰‹æŒç‰©å“çš„ç±»å‹æ¥ä¿®æ”¹é¢„åŠ¨ä½œ
 	switch (SPState->GetCurrentObjectType())
 	{
 	case EObjectType::Normal:
@@ -151,7 +157,7 @@ void ASiAiPlayerController::ChangePreUpperType(EUpperBody::Type RightType = EUpp
 		break;
 	case EObjectType::Food:
 		LeftUpperType = EUpperBody::Punch;
-		//Èç¹ûÓÒ¼ü×´Ì¬ÊÇÊ°È¡ÄÇ¾Í¸øÊ°È¡,Ê°È¡ÓÅÏÈ¼¶¸ß
+		//å¦‚æœå³é”®çŠ¶æ€æ˜¯æ‹¾å–é‚£å°±ç»™æ‹¾å–,æ‹¾å–ä¼˜å…ˆçº§é«˜
 		RightUpperType = RightType == EUpperBody::None ? EUpperBody::Eat : RightType;
 		break;
 	case EObjectType::Tool:

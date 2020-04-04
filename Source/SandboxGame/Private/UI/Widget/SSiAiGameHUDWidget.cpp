@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 #include "SSiAiGameHUDWidget.h"
 #include "SlateOptMacros.h"
@@ -6,6 +6,9 @@
 #include "SDPIScaler.h"
 #include "SOverlay.h"
 #include "SSiAiShortcutWidget.h"
+#include "SSiAiRayInfoWidget.h"
+#include "Engine/GameViewportClient.h"
+#include "SSiAiPointerWidget.h"
 
 BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
 void SSiAiGameHUDWidget::Construct(const FArguments& InArgs)
@@ -18,11 +21,28 @@ void SSiAiGameHUDWidget::Construct(const FArguments& InArgs)
 		[
 			SNew(SOverlay)
 
+			// 快捷栏
 			+ SOverlay::Slot()
 			.HAlign(HAlign_Center)
 			.VAlign(VAlign_Bottom)
 			[
 				SAssignNew(ShortcutWidget, SSiAiShortcutWidget)
+			]
+
+			// 射线信息
+			+ SOverlay::Slot()
+			.HAlign(HAlign_Center)
+			.VAlign(VAlign_Top)
+			[
+				SAssignNew(RayInfoWidget, SSiAiRayInfoWidget)
+			]
+
+			// 准星
+			+ SOverlay::Slot()
+			.HAlign(HAlign_Center)
+			.VAlign(VAlign_Center)
+			[
+				SAssignNew(PointerWidget, SSiAiPointerWidget)
 			]
 		]
 	];

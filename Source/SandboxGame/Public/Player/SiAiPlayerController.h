@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+ï»¿// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
@@ -6,6 +6,14 @@
 #include "GameFramework/PlayerController.h"
 #include "AiSiTypes.h"
 #include "SiAiPlayerController.generated.h"
+
+
+// ä¿®æ”¹å‡†æ˜Ÿå§”æ‰˜
+DECLARE_DELEGATE_TwoParams(FUpdatePointer, bool, float)
+// æ˜¾ç¤ºUIå§”æ‰˜
+// DECLARE_DELEGATE_TwoParams(FShowGameUI, EGameUIType::Type, EGameUIType::Type)
+// ä¿®æ”¹å°åœ°å›¾è§†é‡èŒƒå›´å§”æ‰˜
+// DECLARE_DELEGATE_OneParam(FUpdateMiniMapWidth, int)
 
 /**
  * 
@@ -23,15 +31,22 @@ public:
 
 	virtual void SetupInputComponent() override;
 
-	//¶ÔCharacterµÄÊÖ³ÖÎïÆ·½øĞĞ¸ü¸Ä,Õâ¸öº¯ÊıÔÚplayerstateÄÚ»áµ÷ÓÃ
+	//å¯¹Characterçš„æ‰‹æŒç‰©å“è¿›è¡Œæ›´æ”¹,è¿™ä¸ªå‡½æ•°åœ¨playerstateå†…ä¼šè°ƒç”¨
 	void ChangeHandObject();
 
-protected:
+public:
 
-	//½ÇÉ«Ö¸Õë
+	//è§’è‰²æŒ‡é’ˆ
 	class ASiAiPlayerCharacter *SPCharacter;
 
 	class ASiAiPlayerState *SPState;
+
+	// å®æ—¶ä¿®æ”¹å‡†æ˜Ÿçš„å§”æ‰˜,æ³¨å†Œçš„å‡½æ•°æ˜¯PointerWidgetçš„UpdatePointer
+	FUpdatePointer UpdatePointer;
+	// æ˜¾ç¤ºæ¸¸æˆUIç•Œé¢å§”æ‰˜,ç»‘å®šçš„æ–¹æ³•æ˜¯GameHUDWidgetçš„ShowGameUI
+	// FShowGameUI ShowGameUI;
+	// ä¿®æ”¹å°åœ°å›¾è§†é‡èŒƒå›´å§”æ‰˜,æ³¨å†Œå‡½æ•°æ˜¯SlAiSceneCapture2Dçš„UpdateMiniMapWidth 
+	// FUpdateMiniMapWidth UpdateMiniMapWidth;
 
 protected:
 
@@ -39,34 +54,34 @@ protected:
 
 private:
 
-	// ÇĞ»»ÊÓ½Ç
+	// åˆ‡æ¢è§†è§’
 	void ChangeView();
 
-	// Êó±ê°´¼üÊÂ¼ş
+	// é¼ æ ‡æŒ‰é”®äº‹ä»¶
 	void LeftEventStart();
 	void LeftEventStop();
 	void RightEventStart();
 	void RightEventStop();
 
-	// Êó±ê¹öÂÖÊÂ¼ş
+	// é¼ æ ‡æ»šè½®äº‹ä»¶
 	void ScrollUpEvent();
 	void ScrollDownEvent();
 
-	// ÍË³öÓÎÏ·
+	// é€€å‡ºæ¸¸æˆ
 	void QuitGame();
 
-	// ĞŞ¸ÄÔ¤¶¯×÷
+	// ä¿®æ”¹é¢„åŠ¨ä½œ
 	void ChangePreUpperType(EUpperBody::Type RightType);
 
 private:
 
-	//×ó¼üÔ¤¶¯×÷
+	//å·¦é”®é¢„åŠ¨ä½œ
 	EUpperBody::Type LeftUpperType;
 
-	//ÓÒ¼üÔ¤¶¯×÷
+	//å³é”®é¢„åŠ¨ä½œ
 	EUpperBody::Type RightUpperType;
 
-	//ÊÇ·ñ°´×¡×óÓÒÊó±ê¼ü
+	//æ˜¯å¦æŒ‰ä½å·¦å³é¼ æ ‡é”®
 	bool IsLeftButtonDown;
 	bool IsRightButtonDown;
 	

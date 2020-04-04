@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+Ôªø// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
@@ -21,7 +21,7 @@ public:
 
 public:
 
-	// ±£¥Ê GameMode
+	// ‰øùÂ≠ò GameMode
 	class ASiAiGameMode* GM;
 
 protected:

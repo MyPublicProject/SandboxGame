@@ -66,6 +66,13 @@ EObjectType::Type ASiAiPlayerState::GetCurrentObjectType()
 	return ObjectAttr->ObjectType;
 }
 
+void ASiAiPlayerState::RegisterRayInfoEvent(TSharedPtr<STextBlock> RayInfoTextBlock)
+{
+	RayInfoTextAttr.BindUObject(this, &ASiAiPlayerState::GetRayInfoText);
+	//绑定射线检测信息
+	RayInfoTextBlock->SetText(RayInfoTextAttr);
+}
+
 FText ASiAiPlayerState::GetShortcutInfoText() const
 {
 	TSharedPtr<ObjectAttribute> ObjectAttr;
@@ -82,4 +89,9 @@ FText ASiAiPlayerState::GetShortcutInfoText() const
 		break;
 	}
 	return ObjectAttr->ZH;
+}
+
+FText ASiAiPlayerState::GetRayInfoText() const
+{
+	return FText::FromString("666");
 }
