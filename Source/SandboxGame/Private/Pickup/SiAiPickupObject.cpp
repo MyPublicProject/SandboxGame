@@ -3,6 +3,7 @@
 #include "SiAiPickupObject.h"
 #include "Components/SceneComponent.h"
 #include "Components/StaticMeshComponent.h"
+#include "SlAiDataHandle.h"
 
 
 // Sets default values
@@ -25,7 +26,6 @@ ASiAiPickupObject::ASiAiPickupObject()
 void ASiAiPickupObject::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 // Called every frame
@@ -37,6 +37,21 @@ void ASiAiPickupObject::Tick(float DeltaTime)
 
 FText ASiAiPickupObject::GetInfoText() const
 {
-	return FText::FromString("66");
+	TSharedPtr<ObjectAttribute> ObjectAttr = *SlAiDataHandle::Get()->ObjectAttrMap.Find(ObjectIndex);
+	switch (SlAiDataHandle::Get()->CurrentCulture)
+	{
+	case ECultureTeam::EN:
+		return ObjectAttr->EN;
+	case ECultureTeam::ZH:
+		return ObjectAttr->ZH;
+	}
+	return ObjectAttr->ZH;
+}
+
+int ASiAiPickupObject::TakePickup()
+{
+	BaseMesh->SetCollisionResponseToAllChannels(ECR_Ignore);
+	if (GetWorld()) GetWorld()->DestroyActor(this);
+	return ObjectIndex;
 }
 

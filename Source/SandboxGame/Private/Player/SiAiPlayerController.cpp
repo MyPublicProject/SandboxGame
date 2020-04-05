@@ -6,6 +6,11 @@
 #include "SiAiMenuController.h"
 #include "Kismet/GameplayStatics.h"
 #include "SiAiHelper.h"
+#include "Components/LineBatchComponent.h"
+#include "Camera/CameraComponent.h"
+#include "CollisionQueryParams.h"
+#include "SiAiPickupObject.h"
+#include "SiAiResourceObject.h"
 
 
 ASiAiPlayerController::ASiAiPlayerController()
@@ -17,13 +22,12 @@ ASiAiPlayerController::ASiAiPlayerController()
 void ASiAiPlayerController::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
+	
+	// 进行射线检测
+	RunRayCast();
+	// 处理动作状态
+	StateMachine();
 
-	// 临时代码
-	ChangePreUpperType(EUpperBody::None);
-
-	static float TestPointer = 1.f;
-	TestPointer = FMath::FInterpTo(TestPointer, 0, DeltaSeconds, 1.f);
-	UpdatePointer.ExecuteIfBound(true, FMath::Clamp(TestPointer, 0.f, 1.f));
 }
 
 void ASiAiPlayerController::SetupInputComponent()
@@ -168,5 +172,111 @@ void ASiAiPlayerController::ChangePreUpperType(EUpperBody::Type RightType = EUpp
 		LeftUpperType = EUpperBody::Fight;
 		RightUpperType = RightType;
 		break;
+	}
+}
+
+FHitResult ASiAiPlayerController::RayGetHitResult(FVector TraceStart, FVector TraceEnd)
+{
+	FCollisionQueryParams TraceParams(true);
+	TraceParams.AddIgnoredActor(SPCharacter);
+	TraceParams.bTraceAsyncScene = true;
+	TraceParams.bReturnPhysicalMaterial = false;
+	TraceParams.bTraceComplex = true;
+
+	FHitResult Hit(ForceInit);
+	if (GetWorld()->LineTraceSingleByChannel(Hit, TraceStart, TraceEnd, ECollisionChannel::ECC_GameTraceChannel1, TraceParams))
+	{
+		// DrawRayLine(TraceStart, TraceEnd, 5.f);
+	}
+	return Hit;
+}
+
+void ASiAiPlayerController::DrawRayLine(FVector StartPos, FVector EndPos, float Duration)
+{
+	ULineBatchComponent *const LineBatcher = GetWorld()->PersistentLineBatcher;
+	if (LineBatcher != nullptr)
+	{
+		float LineDuration = (Duration > 0.f) ? Duration : LineBatcher->DefaultLifeTime;
+		LineBatcher->DrawLine(StartPos, EndPos, FLinearColor::Red, 10, 0.f, LineDuration);
+	}
+}
+
+void ASiAiPlayerController::RunRayCast()
+{
+	FVector StartPos(0.f);
+	FVector EndPos(0.f);
+
+	switch (SPCharacter->GameView)
+	{
+	case EGameViewMode::First:
+		StartPos = SPCharacter->FirstCamera->K2_GetComponentLocation();
+		EndPos = StartPos + SPCharacter->FirstCamera->GetForwardVector() * 2000.f;
+		break;
+	case EGameViewMode::Third:
+		StartPos = SPCharacter->ThirdCamera->K2_GetComponentLocation();
+		StartPos = StartPos + SPCharacter->ThirdCamera->GetForwardVector() * 300.f;
+		EndPos = StartPos + SPCharacter->ThirdCamera->GetForwardVector() * 2000.f;
+		break;
+	}
+
+	// 是否检测到物品
+	bool IsDetected = false;
+	FHitResult Hit = RayGetHitResult(StartPos, EndPos);
+	RayActor = Hit.GetActor();
+
+	if (Cast<ASiAiPickupObject>(RayActor))
+	{
+		IsDetected = true;
+		SPState->RayInfoText = Cast<ASiAiPickupObject>(RayActor)->GetInfoText();
+	}
+	if (Cast<ASiAiResourceObject>(RayActor))
+	{
+		IsDetected = true;
+		SPState->RayInfoText = Cast<ASiAiResourceObject>(RayActor)->GetInfoText();
+	}
+
+	// 如果什么都没有检测到那就设置信息为无
+	if (!IsDetected) {
+		SPState->RayInfoText = FText();
+	}
+}
+
+void ASiAiPlayerController::StateMachine()
+{
+	//普通模式
+	ChangePreUpperType(EUpperBody::None);
+	if (!Cast<ASiAiResourceObject>(RayActor) && !Cast<ASiAiPickupObject>(RayActor)) {
+		//准星显示未锁定
+		UpdatePointer.ExecuteIfBound(false, 1.f);
+	}
+	//如果检测到资源
+	if (Cast<ASiAiResourceObject>(RayActor)) {
+		//如果左键没有按下,在资源模式下右键没有特殊意义
+		if (!IsLeftButtonDown) {
+			//准星锁定模式
+			UpdatePointer.ExecuteIfBound(false, 0.f);
+		}
+		//如果左键已经按下
+		if (IsLeftButtonDown && FVector::Distance(RayActor->GetActorLocation(), SPCharacter->GetActorLocation()) < SPState->GetAffectRange())
+		{
+			//获取实际伤害
+			int Damage = SPState->GetDamageValue(Cast<ASiAiResourceObject>(RayActor)->GetResourceType());
+			//让资源受到伤害并且获取剩余血量百分比
+			float Range = Cast<ASiAiResourceObject>(RayActor)->TakeObjectDamage(Damage)->GetHPRange();
+			//更新准星
+			UpdatePointer.ExecuteIfBound(true, Range);
+		}
+	}
+	//如果检测到可拾取物品,并且两者的距离小于300
+	if (Cast<ASiAiPickupObject>(RayActor) && FVector::Distance(RayActor->GetActorLocation(), SPCharacter->GetActorLocation()) < 300.f)
+	{
+		//改变右键预状态为拾取
+		ChangePreUpperType(EUpperBody::PickUp);
+		//修改准星锁定模式
+		UpdatePointer.ExecuteIfBound(false, 0);
+		//如果右键按下
+		if (IsRightButtonDown) {
+			Cast<ASiAiPickupObject>(RayActor)->TakePickup();
+		}
 	}
 }

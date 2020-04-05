@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "AiSiTypes.h"
 #include "SiAiPickupObject.generated.h"
 
 UCLASS()
@@ -21,6 +22,9 @@ public:
 
 	// 获取物品信息
 	FText GetInfoText() const;
+
+	// 被拾取,返回物品ID
+	int TakePickup();
 
 public:
 

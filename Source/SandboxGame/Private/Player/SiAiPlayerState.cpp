@@ -73,6 +73,33 @@ void ASiAiPlayerState::RegisterRayInfoEvent(TSharedPtr<STextBlock> RayInfoTextBl
 	RayInfoTextBlock->SetText(RayInfoTextAttr);
 }
 
+int ASiAiPlayerState::GetAffectRange()
+{
+	TSharedPtr<ObjectAttribute> ObjectAttr;
+	ObjectAttr = *SlAiDataHandle::Get()->ObjectAttrMap.Find(GetCurrentHandObjectIndex());
+	//获取当前手上物品的作用范围
+	return ObjectAttr->AffectRange;
+}
+
+int ASiAiPlayerState::GetDamageValue(EResourceType::Type ResourceType)
+{
+	TSharedPtr<ObjectAttribute> ObjectAttr;
+	ObjectAttr = *SlAiDataHandle::Get()->ObjectAttrMap.Find(GetCurrentHandObjectIndex());
+	switch (ResourceType)
+	{
+	case EResourceType::Plant:
+		return ObjectAttr->PlantAttack;
+		break;
+	case EResourceType::Metal:
+		return ObjectAttr->MetalAttcck;
+		break;
+	case EResourceType::Animal:
+		return ObjectAttr->AnimalAttack;
+		break;
+	}
+	return ObjectAttr->PlantAttack;
+}
+
 FText ASiAiPlayerState::GetShortcutInfoText() const
 {
 	TSharedPtr<ObjectAttribute> ObjectAttr;
@@ -93,5 +120,5 @@ FText ASiAiPlayerState::GetShortcutInfoText() const
 
 FText ASiAiPlayerState::GetRayInfoText() const
 {
-	return FText::FromString("666");
+	return RayInfoText;
 }

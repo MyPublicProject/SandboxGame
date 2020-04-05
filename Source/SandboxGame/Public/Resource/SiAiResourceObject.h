@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "AiSiTypes.h"
 #include "SiAiResourceObject.generated.h"
 
 UCLASS()
@@ -18,6 +19,18 @@ public:
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	// 获取物品信息
+	FText GetInfoText() const;
+
+	// 获取资源类型
+	EResourceType::Type GetResourceType();
+
+	// 获取血量百分比
+	float GetHPRange();
+
+	// 获取伤害
+	ASiAiResourceObject *TakeObjectDamage(int Damage);
 
 public:
 
@@ -39,5 +52,11 @@ protected:
 
 	// 保存资源地址数组
 	TArray<FString> ResourcePath;
+
+	// 血量
+	int HP;
+
+	// 基础血量
+	int BaseHP;
 	
 };
