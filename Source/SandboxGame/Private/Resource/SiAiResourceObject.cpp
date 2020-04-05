@@ -4,6 +4,7 @@
 #include "Components/SceneComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "SlAiDataHandle.h"
+#include "Flob/SiAiFlobObject.h"
 
 
 // Sets default values
@@ -35,11 +36,34 @@ void ASiAiResourceObject::BeginPlay()
 	HP = BaseHP = ResourceAttr->HP;
 }
 
+void ASiAiResourceObject::CreateFlobObject()
+{
+	TSharedPtr<ResourceAttribute> ResourceAttr = *SlAiDataHandle::Get()->ResourceAttrMap.Find(ResourceIndex);
+	// 遍历生成掉落物
+	for (TArray<TArray<int>>::TIterator It(ResourceAttr->FlobObjectInfo); It; It++)
+	{
+		// 随机生成的数量
+		FRandomStream Stream;
+		Stream.GenerateNewSeed();
+		// 生成数量
+		int Num = Stream.FRandRange((*It)[1], (*It)[2]);
+
+		if (GetWorld())
+		{
+			for (int i = 0; i < Num; i++)
+			{
+				// 生成掉落物
+				ASiAiFlobObject *FlobObject = GetWorld()->SpawnActor<ASiAiFlobObject>(GetActorLocation() + FVector(0.f, 0.f, 20.f), FRotator::ZeroRotator);
+				FlobObject->CreateFlobObject((*It)[0]);
+			}
+		}
+	}
+}
+
 // Called every frame
 void ASiAiResourceObject::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 FText ASiAiResourceObject::GetInfoText() const
@@ -76,6 +100,8 @@ ASiAiResourceObject * ASiAiResourceObject::TakeObjectDamage(int Damage)
 	{
 		// 取消检测
 		BaseMesh->SetCollisionResponseToAllChannels(ECR_Ignore);
+		// 创建掉落物
+		CreateFlobObject();
 		// 销毁
 		if (GetWorld()) GetWorld()->DestroyActor(this);
 	}
