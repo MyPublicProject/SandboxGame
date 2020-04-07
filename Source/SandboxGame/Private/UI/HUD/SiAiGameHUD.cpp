@@ -11,6 +11,7 @@
 #include "SSiAiRayInfoWidget.h"
 #include "SSiAiPointerWidget.h"
 #include "SiAiPlayerController.h"
+#include "SSiAiPlayerStateWidget.h"
 
 
 
@@ -34,6 +35,9 @@ void ASiAiGameHUD::BeginPlay()
 	GameHUDWidget->ShortcutWidget->RegisterShortcutContainer.BindUObject(GM->SPState, &ASiAiPlayerState::RegisterShortcutContainer);
 	// 绑定注册射线信息文本事件
 	GameHUDWidget->RayInfoWidget->RegisterRayInfoEvent.BindUObject(GM->SPState, &ASiAiPlayerState::RegisterRayInfoEvent);
-	//绑定修改准星委托
+	// 绑定修改准星委托
 	GM->SPController->UpdatePointer.BindRaw(GameHUDWidget->PointerWidget.Get(), &SSiAiPointerWidget::UpdatePointer);
+	// 绑定更新玩家状态的委托
+	GM->SPState->UpdateStateWidget.BindRaw(GameHUDWidget->PlayerStateWidget.Get(), &SSiAiPlayerStateWidget::UpdateStateWidget);
+
 }

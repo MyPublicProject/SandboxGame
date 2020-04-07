@@ -8,6 +8,8 @@
 #include "AiSiTypes.h"
 #include "SiAiPlayerState.generated.h"
 
+DECLARE_DELEGATE_TwoParams(FUpdateStateWidget, float, float)
+
 /**
  * 
  */
@@ -19,6 +21,8 @@ class SANDBOXGAME_API ASiAiPlayerState : public APlayerState
 public:
 
 	ASiAiPlayerState();
+
+	virtual void Tick(float DeltaSeconds) override;
 
 	// 提供给 ShortcutContainer 的添加快捷栏容器委托
 	void RegisterShortcutContainer(TArray<TSharedPtr<ShortcutContainer>>* ContainerList, TSharedPtr<STextBlock> ShortcutInfoTextBlock);
@@ -48,6 +52,9 @@ public:
 
 	// 射线检测信息Text,由PlayerController进行更新
 	FText RayInfoText;
+
+	// 更新玩家状态UI
+	FUpdateStateWidget UpdateStateWidget;
 	
 private:
 
@@ -67,5 +74,11 @@ private:
 
 	// 射线信息参数
 	TAttribute<FText> RayInfoTextAttr;
+
+	// 血值
+	float HP;
+
+	// 解饿度
+	float Hunger;
 	
 };

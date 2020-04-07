@@ -10,7 +10,41 @@
 
 ASiAiPlayerState::ASiAiPlayerState()
 {
+	// 允许每贞运行
+	PrimaryActorTick.bCanEverTick = true;
+	//设置初始血值为500
+	HP = 500.f;
+	//设置初始饥饿值为600
+	Hunger = 600.f;
+}
 
+void ASiAiPlayerState::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+
+	// 如果解饿度为零，持续减血
+	if (Hunger <= 0)
+	{
+		HP -= DeltaSeconds * 2;
+	}
+	else
+	{
+		if (true)
+		{
+			//如果饥饿不为0,持续减饥饿度,每秒减2
+			Hunger -= DeltaSeconds * 2;
+
+			//持续加血,每秒加1
+			HP += DeltaSeconds;
+		}
+	}
+
+	//设定范围
+	HP = FMath::Clamp<float>(HP, 0.f, 500.f);
+	Hunger = FMath::Clamp<float>(Hunger, 0.f, 600.f);
+
+	//执行修改玩家状态UI的委托
+	UpdateStateWidget.ExecuteIfBound(HP / 500.f, Hunger / 500.f);
 }
 
 void ASiAiPlayerState::RegisterShortcutContainer(TArray<TSharedPtr<ShortcutContainer>>* ContainerList, TSharedPtr<STextBlock> ShortcutInfoTextBlock)

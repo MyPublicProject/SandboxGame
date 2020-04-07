@@ -33,6 +33,9 @@ public:
 	// 准星
 	TSharedPtr<class SSiAiPointerWidget> PointerWidget;
 
+	// 玩家状态
+	TSharedPtr<class SSiAiPlayerStateWidget> PlayerStateWidget;
+
 private:
 
 	// 获取屏幕大小

@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Engine/EngineTypes.h"
 #include "SiAiFlobObject.generated.h"
 
 UCLASS()
@@ -51,5 +52,13 @@ private:
 	class UTexture* ObjectIconTex;
 
 	class UMaterialInstanceDynamic* ObjectIconMatDynamic;
-	
+
+	// 玩家指针
+	class ASiAiPlayerCharacter *SPCharacter;
+
+	// 动态检测 Timer
+	FTimerHandle DetectTimer;
+
+	// 销毁自个 Timer
+	FTimerHandle DestroyTimer;
 };
