@@ -39,5 +39,7 @@ void ASiAiGameHUD::BeginPlay()
 	GM->SPController->UpdatePointer.BindRaw(GameHUDWidget->PointerWidget.Get(), &SSiAiPointerWidget::UpdatePointer);
 	// 绑定更新玩家状态的委托
 	GM->SPState->UpdateStateWidget.BindRaw(GameHUDWidget->PlayerStateWidget.Get(), &SSiAiPlayerStateWidget::UpdateStateWidget);
+	// 绑定显示UI委托
+	GM->SPController->ShowGameUI.BindRaw(GameHUDWidget.Get(), &SSiAiGameHUDWidget::ShowGameUI);
 
 }

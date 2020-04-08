@@ -58,6 +58,9 @@ public:
 	// 是否允许切换视角
 	bool IsAllowSwitch;
 
+	// 是否锁住输入
+	bool IsInputLocked;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
