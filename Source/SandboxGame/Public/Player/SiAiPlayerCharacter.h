@@ -40,6 +40,9 @@ public:
 	// 是否渲染手上物品,由Anim进行调用
 	void RenderHandObject(bool IsRender);
 
+	// 丢弃物品
+	void PlayerThrowObject(int ObjectID, int Num);
+
 public:
 
 	UPROPERTY(VisibleDefaultsOnly, Category = "SiAi")

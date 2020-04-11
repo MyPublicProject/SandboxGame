@@ -40,6 +40,11 @@ public:
 	// 鼠标物品数量
 	int ObjectNum;
 
+	// 丢弃物品委托,绑定的方法是PlayerState的PlayerThrowObject
+	FThrowObject PlayerThrowObject;
+	// 修改快捷栏信息委托
+	FPackShortChange ChangeHandObject;
+
 private:
 
 	// 创建实例方法
@@ -47,6 +52,18 @@ private:
 
 	// 获取鼠标指向的容器
 	TSharedPtr<SSiAiContainerBaseWidget> LocateContainer(FVector2D MousePos, FGeometry PackGeo);
+
+	// 丢弃物品事件
+	void ThrowObject(int ObjectID, int Num);
+
+	// 合成提取事件
+	void CompoundOutput(int ObjectID, int Num);
+
+	// 合成输入事件
+	void CompoundInput();
+
+	// 快捷栏变换事件
+	void PackShortChange(int ShortcutID, int ObjectID, int ObjectNum);
 private:
 
 	// 单例指针

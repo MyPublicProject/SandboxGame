@@ -73,20 +73,44 @@ TSharedPtr<SSiAiContainerBaseWidget> SiAiPackageManager::LocateContainer(FVector
 	return nullptr;
 }
 
+void SiAiPackageManager::ThrowObject(int ObjectID, int Num)
+{
+	PlayerThrowObject.ExecuteIfBound(ObjectID, Num);
+}
+
+void SiAiPackageManager::CompoundOutput(int ObjectID, int Num)
+{
+
+}
+
+void SiAiPackageManager::CompoundInput()
+{
+
+}
+
+void SiAiPackageManager::PackShortChange(int ShortcutID, int ObjectID, int ObjectNum)
+{
+	ChangeHandObject.ExecuteIfBound(ShortcutID, ObjectID, ObjectNum);
+}
+
 void SiAiPackageManager::InsertContainer(TSharedPtr<class SSiAiContainerBaseWidget> Container, EContainerType::Type InserType)
 {
 	switch (InserType)
 	{
 	case EContainerType::Output:
+		Container->ThrowObject.BindRaw(this, &SiAiPackageManager::ThrowObject);
+		Container->CompoundOutput.BindRaw(this, &SiAiPackageManager::CompoundOutput);
 		OutputContainer = Container;
 		break;
 	case EContainerType::Input:
+		Container->CompoundInput.BindRaw(this, &SiAiPackageManager::CompoundInput);
 		InputContainerList.Add(Container);
 		break;
 	case EContainerType::Normal:
 		NormalContainerList.Add(Container);
 		break;
 	case EContainerType::Shortcut:
+		Container->PackShortChange.BindRaw(this, &SiAiPackageManager::PackShortChange);
 		ShortcutContainerList.Add(Container);
 		break;
 	}
@@ -135,6 +159,7 @@ void SiAiPackageManager::LeftOption(FVector2D MousePos, FGeometry PackGeo)
 	if (!ClickedContainer.IsValid() && ObjectIndex != 0)
 	{
 		// 把物品丢弃
+		ThrowObject(ObjectIndex, ObjectNum);
 		// 重置物品
 		ObjectIndex = ObjectNum = 0;
 	}

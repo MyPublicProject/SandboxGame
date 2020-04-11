@@ -78,6 +78,8 @@ void SlAiDataHandle::InitializeGameData()
 	InitObjectAtte();
 	// 初始化资源属性图
 	InitResourceAttrMap();
+
+	bIsGameData = true;
 }
 
 TSharedRef<SlAiDataHandle> SlAiDataHandle::Create()
@@ -93,6 +95,8 @@ SlAiDataHandle::SlAiDataHandle()
 	InitRecordData();
 	// 初始化 Menu Sound 数据
 	InitializedMenuAudio();
+
+	bIsGameData = false;
 }
 
 template<typename TEnum>

@@ -13,6 +13,7 @@
 #include "Components/ChildActorComponent.h"
 #include "Animation/AnimInstance.h"
 #include "SiAiHandObject.h"
+#include "SiAiFlobObject.h"
 
 
 // Sets default values
@@ -196,6 +197,20 @@ void ASiAiPlayerCharacter::RenderHandObject(bool IsRender)
 	// 如果有物品
 	HandObject->GetChildActor()->SetActorHiddenInGame(!IsRender);
 } 
+
+void ASiAiPlayerCharacter::PlayerThrowObject(int ObjectID, int Num)
+{
+	if (GetWorld())
+	{
+		for (int i = 0; i< Num; i++)
+		{
+			// 生成掉落资源
+			ASiAiFlobObject *FlobObject = GetWorld()->SpawnActor<ASiAiFlobObject>(GetActorLocation() + FVector(0.f, 0.f, 50.f), FRotator::ZeroRotator);
+			// 丢弃方式生成掉落物
+			FlobObject->ThrowFlobObject(ObjectID, GetActorRotation().Yaw);
+		}
+	}
+}
 
 void ASiAiPlayerCharacter::MoveForward(float Value)
 {

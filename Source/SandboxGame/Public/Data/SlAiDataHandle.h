@@ -53,6 +53,9 @@ public:
 	// 资源属性图
 	TMap<int, TSharedPtr<ResourceAttribute>> ResourceAttrMap;
 
+	// GameModeData 是否初始化
+	bool bIsGameData;
+
 private:
 
 	// 创建单例

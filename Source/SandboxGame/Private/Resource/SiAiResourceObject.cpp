@@ -30,9 +30,13 @@ ASiAiResourceObject::ASiAiResourceObject()
 // Called when the game starts or when spawned
 void ASiAiResourceObject::BeginPlay()
 {
-	if(SlAiDataHandle::Get()->ResourceAttrMap.Num() <= 0) return;
-	TSharedPtr<ResourceAttribute> ResourceAttr = *SlAiDataHandle::Get()->ResourceAttrMap.Find(ResourceIndex);
-	HP = BaseHP = ResourceAttr->HP;
+	Super::BeginPlay();
+
+	if (SlAiDataHandle::Get()->bIsGameData)
+	{
+		TSharedPtr<ResourceAttribute> ResourceAttr = *SlAiDataHandle::Get()->ResourceAttrMap.Find(ResourceIndex);
+		HP = BaseHP = ResourceAttr->HP;
+	}
 }
 
 void ASiAiResourceObject::CreateFlobObject()

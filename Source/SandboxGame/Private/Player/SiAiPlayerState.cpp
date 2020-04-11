@@ -4,6 +4,8 @@
 #include "AiSiTypes.h"
 #include "STextBlock.h"
 #include "SlAiDataHandle.h"
+#include "SiAiPlayerController.h"
+#include "Kismet/GameplayStatics.h"
 
 
 
@@ -16,6 +18,13 @@ ASiAiPlayerState::ASiAiPlayerState()
 	HP = 500.f;
 	//设置初始饥饿值为600
 	Hunger = 600.f;
+}
+
+void ASiAiPlayerState::BeginPlay()
+{
+	Super::BeginPlay();
+
+	SPController = Cast<ASiAiPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 }
 
 void ASiAiPlayerState::Tick(float DeltaSeconds)
@@ -132,6 +141,14 @@ int ASiAiPlayerState::GetDamageValue(EResourceType::Type ResourceType)
 		break;
 	}
 	return ObjectAttr->PlantAttack;
+}
+
+void ASiAiPlayerState::ChangeHandObject(int ShortcutID, int ObjectID, int ObjectNum)
+{
+	// 更改快捷栏信息
+	ShortcutContainerList[ShortcutID]->SetObject(ObjectID)->SetObjectNum(ObjectNum);
+	// 告诉 Controller 跟新手持物品
+	SPController->ChangeHandObject();
 }
 
 FText ASiAiPlayerState::GetShortcutInfoText() const

@@ -7,6 +7,7 @@
 #include "Player/SiAiPlayerController.h"
 #include "SlAiDataHandle.h"
 #include "Kismet/GameplayStatics.h"
+#include "SiAiPackageManager.h"
 
 
 
@@ -41,10 +42,12 @@ void ASiAiGameMode::InitGamePlayModule()
 
 void ASiAiGameMode::BeginPlay()
 {
-	// 初始化游戏数据
-	SlAiDataHandle::Get()->InitializeGameData();
+	Super::BeginPlay();
 
 	if (!SPController) InitGamePlayModule();
+
+	// 初始化游戏数据
+	SlAiDataHandle::Get()->InitializeGameData();
 }
 
 void ASiAiGameMode::InitializePackage()
@@ -53,6 +56,9 @@ void ASiAiGameMode::InitializePackage()
 
 	// 叫PackageWidget初始化背包管理器
 	InitPackageManager.ExecuteIfBound();
-
+	// 绑定丢弃物品属性
+	SiAiPackageManager::Get()->PlayerThrowObject.BindUObject(SPCharacter, &ASiAiPlayerCharacter::PlayerThrowObject);
+	// 绑定修改快捷栏信息
+	SiAiPackageManager::Get()->ChangeHandObject.BindUObject(SPState, &ASiAiPlayerState::ChangeHandObject);
 	IsInitPackage = true;
 }
