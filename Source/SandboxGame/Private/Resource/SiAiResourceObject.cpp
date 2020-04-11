@@ -30,7 +30,6 @@ ASiAiResourceObject::ASiAiResourceObject()
 // Called when the game starts or when spawned
 void ASiAiResourceObject::BeginPlay()
 {
-	Super::BeginPlay();
 	if(SlAiDataHandle::Get()->ResourceAttrMap.Num() <= 0) return;
 	TSharedPtr<ResourceAttribute> ResourceAttr = *SlAiDataHandle::Get()->ResourceAttrMap.Find(ResourceIndex);
 	HP = BaseHP = ResourceAttr->HP;

@@ -98,7 +98,7 @@ void SSiAiGameHUDWidget::Construct(const FArguments& InArgs)
 			[
 				SAssignNew(PackageWidget, SSiAiPackageWidget)
 				//设置DPI
-				// .UIScaler(UIScaler)
+				.UIScaler(UIScaler)
 				.Visibility(EVisibility::Hidden)
 			]
 		]

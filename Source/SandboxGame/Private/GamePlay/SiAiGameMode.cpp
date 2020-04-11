@@ -21,11 +21,14 @@ ASiAiGameMode::ASiAiGameMode()
 	PlayerControllerClass = ASiAiPlayerController::StaticClass();
 	PlayerStateClass = ASiAiPlayerState::StaticClass();
 	DefaultPawnClass = ASiAiPlayerCharacter::StaticClass();
+
+	// 开始没有初始化背包
+	IsInitPackage = false;
 }
 
 void ASiAiGameMode::Tick(float DeltaSeconds)
 {
-
+	InitializePackage();
 }
 
 void ASiAiGameMode::InitGamePlayModule()
@@ -42,4 +45,14 @@ void ASiAiGameMode::BeginPlay()
 	SlAiDataHandle::Get()->InitializeGameData();
 
 	if (!SPController) InitGamePlayModule();
+}
+
+void ASiAiGameMode::InitializePackage()
+{
+	if (IsInitPackage) return;
+
+	// 叫PackageWidget初始化背包管理器
+	InitPackageManager.ExecuteIfBound();
+
+	IsInitPackage = true;
 }

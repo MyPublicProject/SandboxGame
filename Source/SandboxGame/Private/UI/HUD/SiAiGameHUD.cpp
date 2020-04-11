@@ -12,6 +12,7 @@
 #include "SSiAiPointerWidget.h"
 #include "SiAiPlayerController.h"
 #include "SSiAiPlayerStateWidget.h"
+#include "SSiAiPackageWidget.h"
 
 
 
@@ -41,5 +42,7 @@ void ASiAiGameHUD::BeginPlay()
 	GM->SPState->UpdateStateWidget.BindRaw(GameHUDWidget->PlayerStateWidget.Get(), &SSiAiPlayerStateWidget::UpdateStateWidget);
 	// 绑定显示UI委托
 	GM->SPController->ShowGameUI.BindRaw(GameHUDWidget.Get(), &SSiAiGameHUDWidget::ShowGameUI);
+	// 初始化背包管理器到背包组件
+	GM->InitPackageManager.BindRaw(GameHUDWidget->PackageWidget.Get(), &SSiAiPackageWidget::InitPackageManager);
 
 }

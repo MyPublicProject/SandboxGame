@@ -6,6 +6,8 @@
 #include "GameFramework/GameModeBase.h"
 #include "SiAiGameMode.generated.h"
 
+// 初始化背包管理类委托
+DECLARE_DELEGATE(FInitPackageManager)
 /**
  * 
  */
@@ -31,9 +33,20 @@ public:
 
 	class ASiAiPlayerState *SPState;
 
+	// 初始化背包管理委托,绑定的方法是PackageWidget的InitPackageManager方法
+	FInitPackageManager InitPackageManager;
+
 protected:
 
 	virtual void BeginPlay() override;
+
+	// 初始化背包管理类
+	void InitializePackage();
+
+private:
+
+	// 是否已经初始化背包
+	bool IsInitPackage;
 	
 	
 };
